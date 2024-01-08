@@ -18,6 +18,8 @@ jobs:
               run: npm install
             - name: Create a Development Build
               run: NODE_ENV=development npm run build
+            - name: Remove node modules
+              run: rm -rf node_modules
 
             - name: Setup SSH
               uses: shimataro/ssh-key-action@v2
