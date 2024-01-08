@@ -25,7 +25,7 @@ jobs:
             - name: Run Pre-Deploy script
               uses: appleboy/ssh-action@v0.1.10
               with:
-                host: ${{ inputs.REMOTE_HOST }}
+                host: ${{ secrets.REMOTE_HOST }}
                 username: ${{ secrets.REMOTE_USER }}
                 key: ${{ secrets.EC2_SSH_KEY }}
                 command_timeout: 30m
@@ -39,7 +39,7 @@ jobs:
             - name: Run Post-Deploy script
               uses: appleboy/ssh-action@v0.1.10
               with:
-                host: ${{ inputs.REMOTE_HOST }}
+                host: ${{ secrets.REMOTE_HOST }}
                 username: ${{ secrets.REMOTE_USER }}
                 key: ${{ secrets.EC2_SSH_KEY }}
                 command_timeout: 30m
