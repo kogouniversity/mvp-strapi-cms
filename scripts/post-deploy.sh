@@ -5,8 +5,11 @@ cd $APP_DIR
 echo "[POST-DEPLOY] Installing Node Dependencies"
 npm install
 
+# Temporary disabed due to insufficient RAM size
+# =================================================
 # echo "[POST-DEPLOY] Creating a Development Build"
 # npm run build
+# =================================================
 
 cd $PM2_DIR
 echo "[POST-DEPLOY] Starting on PM2"

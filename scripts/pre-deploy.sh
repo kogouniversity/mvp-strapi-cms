@@ -17,4 +17,5 @@ if [ -d "$APP_DIR" ]; then
     done
     TARGET=${NAME}
   fi
+  mv $APP_DIR $TARGET
 fi
