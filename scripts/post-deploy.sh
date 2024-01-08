@@ -1,12 +1,12 @@
 APP_DIR=/home/ec2-user/kogo/kogo-cms
 PM2_DIR=/home/ec2-user/kogo/pm2
 
-cd $APP_DIR
-echo "[POST-DEPLOY] Installing Node Dependencies"
-npm install
+# cd $APP_DIR
+# echo "[POST-DEPLOY] Installing Node Dependencies"
+# npm install
 
-echo "[POST-DEPLOY] Creating a Development Build"
-npm run build
+# echo "[POST-DEPLOY] Creating a Development Build"
+# npm run build
 
 cd $PM2_DIR
 echo "[POST-DEPLOY] Starting on PM2"
