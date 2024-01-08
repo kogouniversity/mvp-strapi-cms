@@ -19,12 +19,15 @@ jobs:
                   node-version: ${{ matrix.node-version }}
                   cache: 'npm'
 
+            # Temporary workaround for a remote environment with insufficient RAM size
+            # =====================================
             - name: Installing Dependencies
               run: npm install
             - name: Create a Development Build
               run: NODE_ENV=development npm run build
             - name: Remove node modules
               run: rm -rf node_modules
+            # =====================================
 
             - name: Setup SSH
               uses: shimataro/ssh-key-action@v2
