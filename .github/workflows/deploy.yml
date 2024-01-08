@@ -34,7 +34,7 @@ jobs:
 
             - name: Deploy to test server
               run:
-                rsync -vrm --exclude={'node_modules'} . ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/ubuntu/kogo/kogo-cms
+                rsync -vrm --exclude={'node_modules'} . ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:/home/${{ secrets.REMOTE_USER }}/kogo/kogo-cms
 
             - name: Run Post-Deploy script
               uses: appleboy/ssh-action@v0.1.10
