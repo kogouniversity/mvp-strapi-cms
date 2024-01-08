@@ -32,6 +32,10 @@ npm run build
 yarn build
 ```
 
+### Generate Key  
+
+openssl rand -base64 32  
+
 ## ⚙️ Deployment
 
 Strapi gives you many possible deployment options for your project including [Strapi Cloud](https://cloud.strapi.io). Browse the [deployment section of the documentation](https://docs.strapi.io/dev-docs/deployment) to find the best solution for your use case.

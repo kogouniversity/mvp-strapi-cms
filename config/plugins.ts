@@ -2,7 +2,7 @@ module.exports = ({ env }) => ({
   upload: {
     enabled: env('AWS_S3_ENABLED', false),
     config: {
-      provider: 'aws-s3',
+      provider: env('UPLOAD_PROVIDER', 'local'),
       providerOptions: {
         s3Options: {
           accessKeyId: env('AWS_ACCESS_KEY_ID'),

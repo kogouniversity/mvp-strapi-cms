@@ -6,7 +6,8 @@
   "scripts": {
     "develop": "strapi develop",
     "start": "strapi start",
-    "build": "strapi build",
+    "build": "NODE_ENV=development strapi build",
+    "build:prod": "NODE_ENV=production strapi build",
     "strapi": "strapi"
   },
   "dependencies": {

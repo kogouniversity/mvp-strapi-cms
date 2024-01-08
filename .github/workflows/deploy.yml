@@ -30,7 +30,7 @@ jobs:
                 key: ${{ secrets.EC2_SSH_KEY }}
                 command_timeout: 30m
                 script: |
-                  sudo bash /home/ubuntu/kogo/scripts/pre-deploy.sh
+                  bash kogo/scripts/pre-deploy.sh
 
             - name: Deploy to test server
               run:
@@ -44,5 +44,5 @@ jobs:
                 key: ${{ secrets.EC2_SSH_KEY }}
                 command_timeout: 30m
                 script: |
-                  sudo bash /home/ubuntu/kogo/scripts/post-deploy.sh
+                  bash kogo/scripts/post-deploy.sh
 
