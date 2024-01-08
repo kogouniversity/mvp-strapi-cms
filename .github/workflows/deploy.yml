@@ -23,8 +23,8 @@ jobs:
                   EXCLUDE: "/dist/, /node_modules/"
                   SCRIPT_BEFORE: |
                     whoami
-                    /home/ubuntu/kogo/scripts/archive.sh
+                    bash /home/ubuntu/kogo/scripts/archive.sh
                   SCRIPT_AFTER: |
                     ls -al
-                    /home/ubuntu/kogo/scripts/start.sh
+                    bash /home/ubuntu/kogo/scripts/start.sh
 
