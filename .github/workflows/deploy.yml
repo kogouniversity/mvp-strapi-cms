@@ -14,7 +14,6 @@ env:
   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-  NODE_ENV: production
   APP_KEYS: ${{ secrets.APP_KEYS }}
   TRANSFER_TOKEN_SALT: ${{ secrets.TRANSFER_TOKEN_SALT }}
   ADMIN_JWT_SECRET: ${{ secrets.ADMIN_JWT_SECRET }}
@@ -100,7 +99,7 @@ jobs:
                 # Build a docker container and
                 # push it to ECR
                 docker build \
-                  --build-arg NODE_ENV=$NODE_ENV \
+                  --build-arg NODE_ENV=development \
                   --build-arg APP_KEYS=$APP_KEYS \
                   --build-arg TRANSFER_TOKEN_SALT=$TRANSFER_TOKEN_SALT \
                   --build-arg ADMIN_JWT_SECRET=$ADMIN_JWT_SECRET \
@@ -119,7 +118,7 @@ jobs:
                 # Build a docker container and
                 # push it to ECR
                 docker build \
-                  --build-arg NODE_ENV=$NODE_ENV \
+                  --build-arg NODE_ENV=production \
                   --build-arg APP_KEYS=$APP_KEYS \
                   --build-arg TRANSFER_TOKEN_SALT=$TRANSFER_TOKEN_SALT \
                   --build-arg ADMIN_JWT_SECRET=$ADMIN_JWT_SECRET \
