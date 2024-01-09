@@ -29,7 +29,7 @@ jobs:
             - name: Install Dependencies
               run: npm install
 
-            - name: Create a development build for creating a test strapi instance
+            - name: Create a Strapi build for testing
               run: NODE_ENV=development npm run build
 
             - name: Run Test

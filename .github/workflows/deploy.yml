@@ -3,12 +3,24 @@ name: Deploy
 on:
     workflow_dispatch:
 
+
 env:
   AWS_REGION: ${{ vars.AWS_REGION }}
+  EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
   EC2_REMOTE_HOST: ${{ vars.EC2_REMOTE_HOST }}
   EC2_REMOTE_USER: ${{ vars.EC2_REMOTE_USER }}
   ECR_REPOSITORY_DEV: ${{ vars.ECR_REPOSITORY_DEV }}
   ECR_REPOSITORY_STG: ${{ vars.ECR_REPOSITORY_STG }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  NODE_ENV: production
+  APP_KEYS: ${{ secrets.APP_KEYS }}
+  TRANSFER_TOKEN_SALT: ${{ secrets.TRANSFER_TOKEN_SALT }}
+  ADMIN_JWT_SECRET: ${{ secrets.ADMIN_JWT_SECRET }}
+  API_TOKEN_SALT: ${{ secrets.API_TOKEN_SALT }}
+  JWT_SECRET: ${{ secrets.JWT_SECRET }}
+
 
 jobs:
     deploy:
@@ -39,7 +51,7 @@ jobs:
             - name: \[EC2] Setup SSH
               uses: shimataro/ssh-key-action@v2
               with:
-                key: ${{ secrets.EC2_SSH_KEY }}
+                key: $EC2_SSH_KEY
                 known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
             - name: Adding Known Hosts
               run: ssh-keyscan -H $EC2_REMOTE_HOST >> ~/.ssh/known_hosts
@@ -49,7 +61,7 @@ jobs:
               with:
                 host: $EC2_REMOTE_HOST
                 username: $EC2_REMOTE_USER
-                key: ${{ secrets.EC2_SSH_KEY }}
+                key: $EC2_SSH_KEY
                 command_timeout: 30m
                 script: |
                   bash kogo/scripts/pre-deploy.sh
@@ -63,7 +75,7 @@ jobs:
               with:
                 host: $EC2_REMOTE_HOST
                 username: $EC2_REMOTE_USER
-                key: ${{ secrets.EC2_SSH_KEY }}
+                key: $EC2_SSH_KEY
                 command_timeout: 30m
                 script: |
                   bash kogo/scripts/post-deploy.sh
@@ -71,8 +83,8 @@ jobs:
             - name: \[ECR] Configure AWS credentials
               uses: aws-actions/configure-aws-credentials@0e613a0980cbf65ed5b322eb7a1e075d28913a83
               with:
-                aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                aws-access-key-id: $AWS_ACCESS_KEY_ID
+                aws-secret-access-key: $AWS_SECRET_ACCESS_KEY
                 aws-region: $AWS_REGION
 
             - name: \[ECR] Login to Amazon ECR
@@ -88,12 +100,12 @@ jobs:
                 # Build a docker container and
                 # push it to ECR
                 docker build \
-                  --build-arg NODE_ENV=development \
-                  --build-arg APP_KEYS=${{ secrets.APP_KEYS }} \
-                  --build-arg TRANSFER_TOKEN_SALT=${{ secrets.TRANSFER_TOKEN_SALT }} \
-                  --build-arg ADMIN_JWT_SECRET=${{ secrets.ADMIN_JWT_SECRET }} \
-                  --build-arg API_TOKEN_SALT=${{ secrets.API_TOKEN_SALT }} \
-                  --build-arg JWT_SECRET=${{ secrets.JWT_SECRET }} \
+                  --build-arg NODE_ENV=$NODE_ENV \
+                  --build-arg APP_KEYS=$APP_KEYS \
+                  --build-arg TRANSFER_TOKEN_SALT=$TRANSFER_TOKEN_SALT \
+                  --build-arg ADMIN_JWT_SECRET=$ADMIN_JWT_SECRET \
+                  --build-arg API_TOKEN_SALT=$API_TOKEN_SALT \
+                  --build-arg JWT_SECRET=$JWT_SECRET \
                   -t $ECR_REGISTRY/$ECR_REPOSITORY_DEV:$IMAGE_TAG .
                 docker push $ECR_REGISTRY/$ECR_REPOSITORY_DEV:$IMAGE_TAG
                 echo "image=$ECR_REGISTRY/$ECR_REPOSITORY_DEV:$IMAGE_TAG" >> $GITHUB_OUTPUT
@@ -107,12 +119,12 @@ jobs:
                 # Build a docker container and
                 # push it to ECR
                 docker build \
-                  --build-arg NODE_ENV=production \
-                  --build-arg APP_KEYS=${{ secrets.APP_KEYS }} \
-                  --build-arg TRANSFER_TOKEN_SALT=${{ secrets.TRANSFER_TOKEN_SALT }} \
-                  --build-arg ADMIN_JWT_SECRET=${{ secrets.ADMIN_JWT_SECRET }} \
-                  --build-arg API_TOKEN_SALT=${{ secrets.API_TOKEN_SALT }} \
-                  --build-arg JWT_SECRET=${{ secrets.JWT_SECRET }} \
+                  --build-arg NODE_ENV=$NODE_ENV \
+                  --build-arg APP_KEYS=$APP_KEYS \
+                  --build-arg TRANSFER_TOKEN_SALT=$TRANSFER_TOKEN_SALT \
+                  --build-arg ADMIN_JWT_SECRET=$ADMIN_JWT_SECRET \
+                  --build-arg API_TOKEN_SALT=$API_TOKEN_SALT \
+                  --build-arg JWT_SECRET=$JWT_SECRET \
                   -t $ECR_REGISTRY/$ECR_REPOSITORY_STG:$IMAGE_TAG .
                 docker push $ECR_REGISTRY/$ECR_REPOSITORY_STG:$IMAGE_TAG
                 echo "image=$ECR_REGISTRY/$ECR_REPOSITORY_STG:$IMAGE_TAG" >> $GITHUB_OUTPUT
