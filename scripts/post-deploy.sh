@@ -1,8 +1,11 @@
 APP_DIR=/home/ec2-user/kogo/kogo-cms
 PM2_DIR=/home/ec2-user/kogo/pm2
 
-cd $APP_DIR
+echo "[POST-DEPLOY] Delete running application from PM2"
+pm2 delete kogo-cms > /dev/null
+
 echo "[POST-DEPLOY] Installing Node Dependencies"
+cd $APP_DIR
 npm install
 
 # Temporary disabed due to insufficient RAM size
@@ -11,8 +14,8 @@ npm install
 # npm run build
 # =================================================
 
-cd $PM2_DIR
+
 echo "[POST-DEPLOY] Starting on PM2"
-pm2 delete kogo-cms > /dev/null
+cd $PM2_DIR
 pm2 start ecosystem.config.js
 

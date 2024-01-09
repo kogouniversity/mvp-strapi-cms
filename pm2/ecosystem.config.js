@@ -8,6 +8,7 @@ module.exports = {
       env: {
 	      NODE_ENV: 'development',
         APP_KEYS: '', // you can find it in your project .env file.
+        TRANSFER_TOKEN_SALT: '',
         API_TOKEN_SALT: '',
         ADMIN_JWT_SECRET: '',
         JWT_SECRET: '',

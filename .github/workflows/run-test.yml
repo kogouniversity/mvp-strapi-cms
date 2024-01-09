@@ -1,4 +1,4 @@
-name: Run Tests
+name: Run Test
 
 on: [push]
 
@@ -20,3 +20,6 @@ jobs:
                   cache: 'npm'
             - name: Install Dependencies
               run: npm install
+
+            # - name: Run Test
+            #   run: npm run test
