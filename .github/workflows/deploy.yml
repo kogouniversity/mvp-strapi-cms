@@ -53,28 +53,28 @@ jobs:
                 key: $EC2_SSH_KEY
                 known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
             - name: Adding Known Hosts
-              run: ssh-keyscan -H $EC2_REMOTE_HOST >> ~/.ssh/known_hosts
+              run: ssh-keyscan -H ${{ env.EC2_REMOTE_HOST }} >> ~/.ssh/known_hosts
 
             - name: \[EC2] Run Pre-Deploy
               uses: appleboy/ssh-action@v0.1.10
               with:
-                host: $EC2_REMOTE_HOST
-                username: $EC2_REMOTE_USER
-                key: $EC2_SSH_KEY
+                host: ${{ env.EC2_REMOTE_HOST }}
+                username: ${{ env.EC2_REMOTE_USER }}
+                key: ${{ env.EC2_SSH_KEY }}
                 command_timeout: 30m
                 script: |
                   bash kogo/scripts/pre-deploy.sh
 
             - name: \[EC2] Deploy with RSync to test server
               run:
-                rsync -vrm --exclude 'node_modules' . EC2_REMOTE_USER@EC2_REMOTE_HOST:/home/EC2_REMOTE_USER/kogo/kogo-cms
+                rsync -vrm --exclude 'node_modules' . ${{ env.EC2_REMOTE_USER }}@${{ env.EC2_REMOTE_HOST }}:/home/${{ env.EC2_REMOTE_USER }}/kogo/kogo-cms
 
             - name: \[EC2] Run Post-Deploy
               uses: appleboy/ssh-action@v0.1.10
               with:
-                host: $EC2_REMOTE_HOST
-                username: $EC2_REMOTE_USER
-                key: $EC2_SSH_KEY
+                host: ${{ env.EC2_REMOTE_HOST }}
+                username: ${{ env.EC2_REMOTE_USER }}
+                key: ${{ env.EC2_SSH_KEY }}
                 command_timeout: 30m
                 script: |
                   bash kogo/scripts/post-deploy.sh
@@ -82,9 +82,9 @@ jobs:
             - name: \[ECR] Configure AWS credentials
               uses: aws-actions/configure-aws-credentials@0e613a0980cbf65ed5b322eb7a1e075d28913a83
               with:
-                aws-access-key-id: $AWS_ACCESS_KEY_ID
-                aws-secret-access-key: $AWS_SECRET_ACCESS_KEY
-                aws-region: $AWS_REGION
+                aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+                aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+                aws-region: ${{ env.AWS_REGION }}
 
             - name: \[ECR] Login to Amazon ECR
               id: login-ecr
@@ -100,14 +100,14 @@ jobs:
                 # push it to ECR
                 docker build \
                   --build-arg NODE_ENV=development \
-                  --build-arg APP_KEYS=$APP_KEYS \
-                  --build-arg TRANSFER_TOKEN_SALT=$TRANSFER_TOKEN_SALT \
-                  --build-arg ADMIN_JWT_SECRET=$ADMIN_JWT_SECRET \
-                  --build-arg API_TOKEN_SALT=$API_TOKEN_SALT \
-                  --build-arg JWT_SECRET=$JWT_SECRET \
-                  -t $ECR_REGISTRY/$ECR_REPOSITORY_DEV:$IMAGE_TAG .
-                docker push $ECR_REGISTRY/$ECR_REPOSITORY_DEV:$IMAGE_TAG
-                echo "image=$ECR_REGISTRY/$ECR_REPOSITORY_DEV:$IMAGE_TAG" >> $GITHUB_OUTPUT
+                  --build-arg APP_KEYS=${{ env.APP_KEYS }} \
+                  --build-arg TRANSFER_TOKEN_SALT=${{ env.TRANSFER_TOKEN_SALT }} \
+                  --build-arg ADMIN_JWT_SECRET=${{ env.ADMIN_JWT_SECRET }} \
+                  --build-arg API_TOKEN_SALT=${{ env.API_TOKEN_SALT }} \
+                  --build-arg JWT_SECRET=${{ env.JWT_SECRET }} \
+                  -t $ECR_REGISTRY/${{ env.ECR_REPOSITORY_DEV }}:$IMAGE_TAG .
+                docker push $ECR_REGISTRY/${{ env.ECR_REPOSITORY_DEV }}:$IMAGE_TAG
+                echo "image=$ECR_REGISTRY/${{ env.ECR_REPOSITORY_DEV }}:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
             - name: \[ECR] Build and push image to Amazon ECR STG
               id: build-image-for-stg
@@ -119,11 +119,11 @@ jobs:
                 # push it to ECR
                 docker build \
                   --build-arg NODE_ENV=production \
-                  --build-arg APP_KEYS=$APP_KEYS \
-                  --build-arg TRANSFER_TOKEN_SALT=$TRANSFER_TOKEN_SALT \
-                  --build-arg ADMIN_JWT_SECRET=$ADMIN_JWT_SECRET \
-                  --build-arg API_TOKEN_SALT=$API_TOKEN_SALT \
-                  --build-arg JWT_SECRET=$JWT_SECRET \
-                  -t $ECR_REGISTRY/$ECR_REPOSITORY_STG:$IMAGE_TAG .
-                docker push $ECR_REGISTRY/$ECR_REPOSITORY_STG:$IMAGE_TAG
-                echo "image=$ECR_REGISTRY/$ECR_REPOSITORY_STG:$IMAGE_TAG" >> $GITHUB_OUTPUT
+                  --build-arg APP_KEYS=${{ env.APP_KEYS }} \
+                  --build-arg TRANSFER_TOKEN_SALT=${{ env.TRANSFER_TOKEN_SALT }} \
+                  --build-arg ADMIN_JWT_SECRET=${{ env.ADMIN_JWT_SECRET }} \
+                  --build-arg API_TOKEN_SALT=${{ env.API_TOKEN_SALT }} \
+                  --build-arg JWT_SECRET=${{ env.JWT_SECRET }} \
+                  -t $ECR_REGISTRY/${{ env.ECR_REPOSITORY_STG }}:$IMAGE_TAG .
+                docker push $ECR_REGISTRY/${{ env.ECR_REPOSITORY_STG }}:$IMAGE_TAG
+                echo "image=$ECR_REGISTRY/${{ env.ECR_REPOSITORY_STG }}:$IMAGE_TAG" >> $GITHUB_OUTPUT
