@@ -37,27 +37,54 @@ jobs:
                   node-version: ${{ matrix.node-version }}
                   cache: 'npm'
 
+            # Temporary workaround for a remote environment with insufficient RAM size
+            # =====================================
             - name: Installing Dependencies
               run: npm install
             - name: Create a Development Build
               run: NODE_ENV=development npm run build
             - name: Remove node modules
               run: rm -rf node_modules
+            # =====================================
 
-            - name: Configure AWS credentials
+            - name: \[EC2] Setup SSH
+              uses: shimataro/ssh-key-action@v2
+              with:
+                key: $EC2_SSH_KEY
+                known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
+            - name: Adding Known Hosts
+              run: ssh-keyscan -H ${{ env.EC2_REMOTE_HOST }} >> ~/.ssh/known_hosts
+
+            - name: \[EC2] Run Pre-Deploy
+              uses: appleboy/ssh-action@v0.1.10
+              with:
+                host: ${{ env.EC2_REMOTE_HOST }}
+                username: ${{ env.EC2_REMOTE_USER }}
+                key: ${{ env.EC2_SSH_KEY }}
+                command_timeout: 30m
+                script: |
+                  bash kogo/scripts/pre-deploy.sh
+
+            - name: \[EC2] Deploy with RSync to test server
+              run:
+                rsync -vrm --exclude 'node_modules' . ${{ env.EC2_REMOTE_USER }}@${{ env.EC2_REMOTE_HOST }}:/home/${{ env.EC2_REMOTE_USER }}/kogo/kogo-cms
+
+            - name: \[EC2] Run Post-Deploy
+              uses: appleboy/ssh-action@v0.1.10
+              with:
+                host: ${{ env.EC2_REMOTE_HOST }}
+                username: ${{ env.EC2_REMOTE_USER }}
+                key: ${{ env.EC2_SSH_KEY }}
+                command_timeout: 30m
+                script: |
+                  bash kogo/scripts/post-deploy.sh
+
+            - name: \[ECR] Configure AWS credentials
               uses: aws-actions/configure-aws-credentials@0e613a0980cbf65ed5b322eb7a1e075d28913a83
               with:
                 aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
                 aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
                 aws-region: ${{ env.AWS_REGION }}
-            - name: Get current date
-              id: date
-              run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
-
-            - name: \[S3] Deploy to S3 bucket
-              env:
-                RELEASE_NAME: dev-release-${{ steps.date.outputs.date }}
-              run: aws s3 sync . s3://s3-kogo-repo/strapi/$RELEASE_NAME
 
             - name: \[ECR] Login to Amazon ECR
               id: login-ecr
