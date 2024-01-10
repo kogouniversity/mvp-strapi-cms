@@ -13,7 +13,7 @@
     "lint": "echo \"\\033[33mRunning eslint check\" && eslint --fix src tests",
     "tsc": "echo \"\\033[33mRunning typescript check\" && tsc",
     "prettier": "prettier --write src tests",
-    "prepare": "husky install"
+    "prepare": "test -d node_modules/husky && husky install || echo \"husky is not installed\""
   },
   "dependencies": {
     "@strapi/plugin-cloud": "4.16.2",
