@@ -1,7 +1,10 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
   extends: [
+      'airbnb-base',
+      'eslint:recommended',
       'prettier',
+      'plugin:import/recommended',
       'plugin:@typescript-eslint/recommended',
   ],
   parserOptions: {
@@ -9,16 +12,28 @@ module.exports = {
     ecmaVersion: 2020,
     sourceType: 'module',
   },
-  ignorePatterns: ["*.tsx"],
+  settings: {
+    'import/resolver': {
+      typescript: true,
+    }
+  },
   plugins: ['jest', '@typescript-eslint'],
   rules: {
       'linebreak-style': 'off',
+      'no-return-await': 'error',
+      'object-shorthand': ['error', 'always', { avoidExplicitReturnArrows: true }],
+      'class-methods-use-this': 'off',
+      'default-param-last': 'warn',
+      'no-template-curly-in-string': 'warn',
       'func-names': 0,
+      'import/extensions': 0,
       'import/prefer-default-export': 0,
       // enforce explicit Typescript typing
       '@typescript-eslint/explicit-module-boundary-types': 'error',
   },
   env: {
       node: true,
+      es6: true,
+      jest: true,
   },
 };

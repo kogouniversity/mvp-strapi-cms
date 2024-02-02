@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 export default {
     config: {
         locales: [
@@ -29,7 +30,7 @@ export default {
             // 'zh',
         ],
     },
-    bootstrap(app) {
+    bootstrap(app: unknown) {
         console.log(app);
     },
 };
