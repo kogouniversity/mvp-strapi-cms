@@ -21,7 +21,18 @@ module.exports = ({ env }) => ({
         uploadStream: {
           ACL: null
         },
-      }
+      },
+      'users-permissions': {
+        config: {
+          jwt: {
+            expiresIn: '7d',
+          },
+          // If you have added any additional fields to your user model that need to be accepted on registration
+          register: {
+            allowedFields: [],
+          }
+        },
+      },
     },
   }
 });
