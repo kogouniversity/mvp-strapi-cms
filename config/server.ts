@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default ({ env }) => ({
   host: env('HOST', '0.0.0.0'),
   port: env.int('PORT', 1337),

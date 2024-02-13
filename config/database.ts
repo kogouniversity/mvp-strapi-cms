@@ -1,5 +1,6 @@
 import path from 'path';
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default ({ env }) => {
   const client = env('DATABASE_CLIENT', 'sqlite');
 
