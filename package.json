@@ -21,6 +21,7 @@
     "@strapi/plugin-users-permissions": "4.16.2",
     "@strapi/provider-upload-aws-s3": "^4.16.2",
     "@strapi/strapi": "4.16.2",
+    "@types/koa": "^2.14.0",
     "better-sqlite3": "8.6.0",
     "mysql": "^2.18.1",
     "react": "^18.0.0",
@@ -64,7 +65,13 @@
     }
   },
   "lint-staged": {
-    "src/**/*.{js,ts,d.ts}": ["prettier --write", "eslint --fix"],
-    "tests/**/*.{js,ts,d.ts}": ["prettier --write", "eslint --fix"]
+    "src/**/*.{js,ts,d.ts}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "tests/**/*.{js,ts,d.ts}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
   }
 }
