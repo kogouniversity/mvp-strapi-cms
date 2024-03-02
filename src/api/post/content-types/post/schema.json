@@ -1,33 +1,39 @@
 {
-    "kind": "collectionType",
-    "collectionName": "posts",
-    "info": {
-        "singularName": "post",
-        "pluralName": "posts",
-        "displayName": "post",
-        "description": ""
+  "kind": "collectionType",
+  "collectionName": "posts",
+  "info": {
+    "singularName": "post",
+    "pluralName": "posts",
+    "displayName": "post",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "content": {
+      "type": "blocks"
     },
-    "options": {
-        "draftAndPublish": true
+    "title": {
+      "type": "string"
     },
-    "pluginOptions": {},
-    "attributes": {
-        "content": {
-            "type": "blocks"
-        },
-        "title": {
-            "type": "string"
-        },
-        "auther": {
-            "type": "relation",
-            "relation": "oneToOne",
-            "target": "plugin::users-permissions.user"
-        },
-        "comments": {
-            "type": "relation",
-            "relation": "oneToMany",
-            "target": "api::comment.comment",
-            "mappedBy": "post"
-        }
+    "auther": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "comments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::comment.comment",
+      "mappedBy": "post"
+    },
+    "group": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::group.group",
+      "inversedBy": "post"
     }
+  }
 }

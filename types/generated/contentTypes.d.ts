@@ -831,6 +831,42 @@ export interface ApiCommentComment extends Schema.CollectionType {
     };
 }
 
+export interface ApiGroupGroup extends Schema.CollectionType {
+    collectionName: 'groups';
+    info: {
+        singularName: 'group';
+        pluralName: 'groups';
+        displayName: 'Group';
+        description: '';
+    };
+    options: {
+        draftAndPublish: true;
+    };
+    attributes: {
+        name: Attribute.String;
+        post: Attribute.Relation<
+            'api::group.group',
+            'oneToOne',
+            'api::post.post'
+        >;
+        createdAt: Attribute.DateTime;
+        updatedAt: Attribute.DateTime;
+        publishedAt: Attribute.DateTime;
+        createdBy: Attribute.Relation<
+            'api::group.group',
+            'oneToOne',
+            'admin::user'
+        > &
+            Attribute.Private;
+        updatedBy: Attribute.Relation<
+            'api::group.group',
+            'oneToOne',
+            'admin::user'
+        > &
+            Attribute.Private;
+    };
+}
+
 export interface ApiPostPost extends Schema.CollectionType {
     collectionName: 'posts';
     info: {
@@ -854,6 +890,11 @@ export interface ApiPostPost extends Schema.CollectionType {
             'api::post.post',
             'oneToMany',
             'api::comment.comment'
+        >;
+        group: Attribute.Relation<
+            'api::post.post',
+            'oneToOne',
+            'api::group.group'
         >;
         createdAt: Attribute.DateTime;
         updatedAt: Attribute.DateTime;
@@ -892,6 +933,7 @@ declare module '@strapi/types' {
             'plugin::users-permissions.role': PluginUsersPermissionsRole;
             'plugin::users-permissions.user': PluginUsersPermissionsUser;
             'api::comment.comment': ApiCommentComment;
+            'api::group.group': ApiGroupGroup;
             'api::post.post': ApiPostPost;
         }
     }
