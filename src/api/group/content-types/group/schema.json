@@ -13,11 +13,13 @@
   "pluginOptions": {},
   "attributes": {
     "name": {
-      "type": "string"
+      "type": "string",
+      "required": true,
+      "minLength": 3
     },
-    "post": {
+    "posts": {
       "type": "relation",
-      "relation": "oneToOne",
+      "relation": "oneToMany",
       "target": "api::post.post",
       "mappedBy": "group"
     }

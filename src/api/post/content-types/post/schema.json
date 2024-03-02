@@ -4,7 +4,7 @@
   "info": {
     "singularName": "post",
     "pluralName": "posts",
-    "displayName": "post",
+    "displayName": "Post",
     "description": ""
   },
   "options": {
@@ -12,16 +12,20 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "content": {
-      "type": "blocks"
-    },
     "title": {
-      "type": "string"
+      "type": "string",
+      "required": true,
+      "minLength": 3
     },
     "auther": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
+    },
+    "content": {
+      "type": "text",
+      "required": true,
+      "minLength": 1
     },
     "comments": {
       "type": "relation",
@@ -31,9 +35,9 @@
     },
     "group": {
       "type": "relation",
-      "relation": "oneToOne",
+      "relation": "manyToOne",
       "target": "api::group.group",
-      "inversedBy": "post"
+      "inversedBy": "posts"
     }
   }
 }

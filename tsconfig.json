@@ -20,6 +20,6 @@
     ".tmp/",
     "src/admin/",
     "**/*.test.*",
-    "src/plugins/**"
+    "plugins/**"
   ]
 }

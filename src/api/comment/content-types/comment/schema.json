@@ -4,20 +4,23 @@
   "info": {
     "singularName": "comment",
     "pluralName": "comments",
-    "displayName": "comment"
+    "displayName": "Comment",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "content": {
-      "type": "blocks"
-    },
     "auther": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
+    },
+    "content": {
+      "type": "text",
+      "required": true,
+      "minLength": 1
     },
     "post": {
       "type": "relation",

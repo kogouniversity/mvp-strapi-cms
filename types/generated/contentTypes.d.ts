@@ -796,18 +796,23 @@ export interface ApiCommentComment extends Schema.CollectionType {
     info: {
         singularName: 'comment';
         pluralName: 'comments';
-        displayName: 'comment';
+        displayName: 'Comment';
+        description: '';
     };
     options: {
         draftAndPublish: true;
     };
     attributes: {
-        content: Attribute.Blocks;
         auther: Attribute.Relation<
             'api::comment.comment',
             'oneToOne',
             'plugin::users-permissions.user'
         >;
+        content: Attribute.Text &
+            Attribute.Required &
+            Attribute.SetMinMaxLength<{
+                minLength: 1;
+            }>;
         post: Attribute.Relation<
             'api::comment.comment',
             'manyToOne',
@@ -843,10 +848,14 @@ export interface ApiGroupGroup extends Schema.CollectionType {
         draftAndPublish: true;
     };
     attributes: {
-        name: Attribute.String;
-        post: Attribute.Relation<
+        name: Attribute.String &
+            Attribute.Required &
+            Attribute.SetMinMaxLength<{
+                minLength: 3;
+            }>;
+        posts: Attribute.Relation<
             'api::group.group',
-            'oneToOne',
+            'oneToMany',
             'api::post.post'
         >;
         createdAt: Attribute.DateTime;
@@ -872,20 +881,28 @@ export interface ApiPostPost extends Schema.CollectionType {
     info: {
         singularName: 'post';
         pluralName: 'posts';
-        displayName: 'post';
+        displayName: 'Post';
         description: '';
     };
     options: {
         draftAndPublish: true;
     };
     attributes: {
-        content: Attribute.Blocks;
-        title: Attribute.String;
+        title: Attribute.String &
+            Attribute.Required &
+            Attribute.SetMinMaxLength<{
+                minLength: 3;
+            }>;
         auther: Attribute.Relation<
             'api::post.post',
             'oneToOne',
             'plugin::users-permissions.user'
         >;
+        content: Attribute.Text &
+            Attribute.Required &
+            Attribute.SetMinMaxLength<{
+                minLength: 1;
+            }>;
         comments: Attribute.Relation<
             'api::post.post',
             'oneToMany',
@@ -893,7 +910,7 @@ export interface ApiPostPost extends Schema.CollectionType {
         >;
         group: Attribute.Relation<
             'api::post.post',
-            'oneToOne',
+            'manyToOne',
             'api::group.group'
         >;
         createdAt: Attribute.DateTime;
