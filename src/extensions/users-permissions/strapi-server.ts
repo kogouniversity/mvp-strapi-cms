@@ -49,7 +49,27 @@ export default plugin => {
             },
         );
 
-        return ctx.send(ctx.response.body);
+        const emailToSend = {
+            to: ctx.request.body.email,
+            from: '1234@gmail.com',
+            subject: 'Thank you for joining Kogo',
+            text: '111111',
+        };
+
+        // Send an email to the user.
+        strapi.plugin('email').service('email').send(emailToSend);
+
+        const emailVerification = {
+            message: `verification code is sent to ${ctx.request.body.email}`,
+            expiry: new Date(Date.now() + 5 * 60 * 1000).toString(),
+        };
+
+        const final = {
+            ...ctx.response.body,
+            emailVerification,
+        };
+
+        return ctx.send(final, 200);
     };
     return plugin;
 };

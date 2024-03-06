@@ -5,30 +5,28 @@
  * A set of functions called "actions" for `email-verification`
  */
 export default {
-    async sendEmail(ctx: any): Promise<void> {
-        const c = await strapi.entityService.update(
-            'plugin::users-permissions.user',
-            ctx.state.user.id,
-            {
-                data: {
-                    id: ctx.request.body.id,
+    async confirmCode(ctx: any): Promise<void> {
+        const { code } = ctx.request.body;
+        if (code === '111111') {
+            await strapi.entityService.update(
+                'plugin::users-permissions.user',
+                ctx.state.user.id,
+                {
+                    data: {
+                        confirmed: true,
+                    },
                 },
-            },
-        );
-        if (c.confirmed) {
-            ctx.badRequest('Already confirmed user');
+            );
+
+            ctx.state.user.confirmed = true;
+            ctx.send(ctx.state.user, 200);
         } else {
-            const emailToSend = {
-                to: ctx.request.body.email,
-                from: '1234@gmail.com',
-                subject: 'Thank you for joining Kogo',
-                text: '111111',
-            };
-
-            // Send an email to the user.
-            strapi.plugin('email').service('email').send(emailToSend);
-
-            ctx.body = 'ok';
+            ctx.send(
+                {
+                    message: 'Wrong / Invalid code',
+                },
+                400,
+            );
         }
     },
 };
