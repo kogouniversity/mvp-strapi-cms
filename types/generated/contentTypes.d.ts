@@ -931,6 +931,37 @@ export interface ApiPostPost extends Schema.CollectionType {
     };
 }
 
+export interface ApiSchoolSchool extends Schema.CollectionType {
+    collectionName: 'schools';
+    info: {
+        singularName: 'school';
+        pluralName: 'schools';
+        displayName: 'School';
+    };
+    options: {
+        draftAndPublish: true;
+    };
+    attributes: {
+        schoolEmailDomain: Attribute.String;
+        schoolName: Attribute.String;
+        createdAt: Attribute.DateTime;
+        updatedAt: Attribute.DateTime;
+        publishedAt: Attribute.DateTime;
+        createdBy: Attribute.Relation<
+            'api::school.school',
+            'oneToOne',
+            'admin::user'
+        > &
+            Attribute.Private;
+        updatedBy: Attribute.Relation<
+            'api::school.school',
+            'oneToOne',
+            'admin::user'
+        > &
+            Attribute.Private;
+    };
+}
+
 declare module '@strapi/types' {
     export module Shared {
         export interface ContentTypes {
@@ -952,6 +983,7 @@ declare module '@strapi/types' {
             'api::comment.comment': ApiCommentComment;
             'api::group.group': ApiGroupGroup;
             'api::post.post': ApiPostPost;
+            'api::school.school': ApiSchoolSchool;
         }
     }
 }

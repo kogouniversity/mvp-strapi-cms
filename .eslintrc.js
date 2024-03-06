@@ -30,7 +30,6 @@ module.exports = {
       '@typescript-eslint/explicit-module-boundary-types': 0,
       'import/prefer-default-export': 0,
       // enforce explicit Typescript typing
-      '@typescript-eslint/explicit-module-boundary-types': 'error',
   },
   env: {
       node: true,
