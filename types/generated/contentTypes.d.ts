@@ -902,7 +902,7 @@ export interface ApiPostPost extends Schema.CollectionType {
             Attribute.SetMinMaxLength<{
                 minLength: 3;
             }>;
-        auther: Attribute.Relation<
+        author: Attribute.Relation<
             'api::post.post',
             'oneToOne',
             'plugin::users-permissions.user'
