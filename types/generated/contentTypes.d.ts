@@ -946,6 +946,7 @@ export interface ApiSchoolSchool extends Schema.CollectionType {
         singularName: 'school';
         pluralName: 'schools';
         displayName: 'School';
+        description: '';
     };
     options: {
         draftAndPublish: true;
@@ -953,6 +954,11 @@ export interface ApiSchoolSchool extends Schema.CollectionType {
     attributes: {
         schoolEmailDomain: Attribute.String;
         schoolName: Attribute.String;
+        group: Attribute.Relation<
+            'api::school.school',
+            'oneToOne',
+            'api::group.group'
+        >;
         createdAt: Attribute.DateTime;
         updatedAt: Attribute.DateTime;
         publishedAt: Attribute.DateTime;
