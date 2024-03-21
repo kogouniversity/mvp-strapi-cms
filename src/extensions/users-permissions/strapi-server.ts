@@ -1,4 +1,25 @@
+import jwt from 'jsonwebtoken';
+
 /* eslint-disable no-param-reassign */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function sendVerificationEmail(ctx: any) {
+    const emailToSend = {
+        to: ctx.request.body.email,
+        from: '1234@gmail.com',
+        subject: 'Thank you for joining Kogo',
+        text: '111111',
+    };
+
+    // Send an email to the user.
+    strapi.plugin('email').service('email').send(emailToSend);
+}
+
+// issue a Refresh token
+const issueRefeshToken = (payload: object) =>
+    jwt.sign(JSON.stringify(payload), process.env.REFRESH_SECRET, {
+        expiresIn: process.env.REFRESH_TOKEN_EXPIRES,
+    });
+
 export default plugin => {
     // the default register controller
     const { register } = plugin.controllers.auth;
@@ -14,10 +35,9 @@ export default plugin => {
                     .match(
                         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                     );
-
             validateEmail(email);
         } catch (err) {
-            strapi.log.error(err.message);
+            return ctx.badRequest('Bad email address');
         }
 
         const entries =
@@ -32,16 +52,16 @@ export default plugin => {
         );
 
         if (!schoolDomains.includes(emailDomain)) {
-            return ctx.badRequest('Not a school domain');
+            return ctx.badRequest('Not a registered school domain');
         }
 
         await register(ctx);
 
-        ctx.response.body.user.confirmed = false;
+        const { user } = ctx.response.body;
 
         await strapi.entityService.update(
             'plugin::users-permissions.user',
-            ctx.response.body.user.id,
+            user.id,
             {
                 data: {
                     confirmed: false,
@@ -49,27 +69,23 @@ export default plugin => {
             },
         );
 
-        const emailToSend = {
-            to: ctx.request.body.email,
-            from: '1234@gmail.com',
-            subject: 'Thank you for joining Kogo',
-            text: '111111',
-        };
-
-        // Send an email to the user.
-        strapi.plugin('email').service('email').send(emailToSend);
+        sendVerificationEmail(ctx);
 
         const emailVerification = {
             message: `verification code is sent to ${ctx.request.body.email}`,
             expiry: new Date(Date.now() + 5 * 60 * 1000).toString(),
         };
 
-        const final = {
-            ...ctx.response.body,
-            emailVerification,
-        };
+        const refreshToken = issueRefeshToken({ id: user.id });
 
-        return ctx.send(final, 200);
+        return ctx.send(
+            {
+                ...ctx.response.body,
+                emailVerification,
+                refreshToken,
+            },
+            200,
+        );
     };
     return plugin;
 };
