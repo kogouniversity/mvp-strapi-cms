@@ -19,7 +19,13 @@ export default {
             );
 
             ctx.state.user.confirmed = true;
-            ctx.send(ctx.state.user, 200);
+            ctx.send(
+                {
+                    status: 'Authenticated',
+                    user: ctx.state.user,
+                },
+                200,
+            );
         } else {
             ctx.send(
                 {

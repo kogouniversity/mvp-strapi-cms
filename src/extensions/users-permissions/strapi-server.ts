@@ -77,6 +77,12 @@ export default plugin => {
         };
 
         const refreshToken = issueRefeshToken({ id: user.id });
+        strapi
+            .plugin('redis')
+            .connections.default.client.set(
+                `user-${user.id}-refresh-token`,
+                refreshToken,
+            );
 
         return ctx.send(
             {
