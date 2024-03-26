@@ -1,9 +1,12 @@
 module.exports = ({ env }) => ({
+  documentation: {
+    enabled: false
+  },
   'user-permissions': {
     config: {
       jwt: {
         expiresIn: env('JWT_EXPIRES'),
-      }
+      },
     }
   },
   redis: {
@@ -11,8 +14,8 @@ module.exports = ({ env }) => ({
       connections: {
         default: {
           connection: {
-            host: 'localhost',
-            port: 6379,
+            host: env('REDIS_HOST', 'localhost'),
+            port: env('REDIS_PORT', 6379),
             db: 0,
           },
           settings: {

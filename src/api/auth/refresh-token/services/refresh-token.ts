@@ -1,5 +1,0 @@
-/**
- * refresh service
- */
-
-export default () => ({});

@@ -22,7 +22,7 @@
     "@strapi/plugin-users-permissions": "4.16.2",
     "@strapi/provider-upload-aws-s3": "^4.16.2",
     "@strapi/strapi": "4.16.2",
-    "@strapi/utils": "^4.20.5",
+    "@strapi/utils": "^4.21.0",
     "@types/koa": "^2.14.0",
     "better-sqlite3": "8.6.0",
     "jsonwebtoken": "^9.0.2",

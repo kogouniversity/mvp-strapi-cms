@@ -1,12 +1,15 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 module.exports = ({ env }) => ({
+  documentation: {
+    enabled: true
+  },
   redis: {
     config: {
       connections: {
         default: {
           connection: {
-            host: '127.0.0.1',
-            port: 6379,
+            host: env('REDIS_HOST', 'localhost'),
+            port: env('REDIS_PORT', 6379),
             db: 0,
           },
           settings: {
