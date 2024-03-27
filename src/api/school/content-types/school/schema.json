@@ -22,6 +22,11 @@
             "type": "relation",
             "relation": "oneToOne",
             "target": "api::group.group"
+        },
+        "address": {
+            "type": "relation",
+            "relation": "oneToOne",
+            "target": "api::address.address"
         }
     }
 }

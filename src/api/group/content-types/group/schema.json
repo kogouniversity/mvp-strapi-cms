@@ -1,44 +1,49 @@
 {
-  "kind": "collectionType",
-  "collectionName": "groups",
-  "info": {
-    "singularName": "group",
-    "pluralName": "groups",
-    "displayName": "Group",
-    "description": ""
-  },
-  "options": {
-    "draftAndPublish": true
-  },
-  "pluginOptions": {},
-  "attributes": {
-    "name": {
-      "type": "string",
-      "required": true,
-      "minLength": 3
+    "kind": "collectionType",
+    "collectionName": "groups",
+    "info": {
+        "singularName": "group",
+        "pluralName": "groups",
+        "displayName": "Group",
+        "description": ""
     },
-    "posts": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::post.post",
-      "mappedBy": "group"
+    "options": {
+        "draftAndPublish": true
     },
-    "users": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "plugin::users-permissions.user",
-      "mappedBy": "groups"
-    },
-    "description": {
-      "type": "text",
-      "maxLength": 100
-    },
-    "icon": {
-      "allowedTypes": [
-        "images"
-      ],
-      "type": "media",
-      "multiple": false
+    "pluginOptions": {},
+    "attributes": {
+        "name": {
+            "type": "string",
+            "required": true,
+            "minLength": 3
+        },
+        "posts": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::post.post",
+            "mappedBy": "group"
+        },
+        "users": {
+            "type": "relation",
+            "relation": "manyToMany",
+            "target": "plugin::users-permissions.user",
+            "mappedBy": "groups"
+        },
+        "address": {
+            "type": "relation",
+            "relation": "oneToOne",
+            "target": "api::address.address"
+        },
+        "hasAddress": {
+            "type": "boolean",
+            "default": false
+        },
+        "regionRestricted": {
+            "type": "boolean",
+            "default": false
+        },
+        "enabled": {
+            "type": "boolean"
+        }
     }
-  }
 }
