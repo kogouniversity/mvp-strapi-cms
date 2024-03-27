@@ -678,6 +678,12 @@ export interface ApiGroupGroup extends Schema.CollectionType {
         hasAddress: Attribute.Boolean & Attribute.DefaultTo<false>;
         regionRestricted: Attribute.Boolean & Attribute.DefaultTo<false>;
         enabled: Attribute.Boolean;
+        description: Attribute.Text &
+            Attribute.SetMinMaxLength<{
+                maxLength: 100;
+            }>;
+        icon: Attribute.Media;
+        userCount: Attribute.Integer & Attribute.DefaultTo<0>;
         createdAt: Attribute.DateTime;
         updatedAt: Attribute.DateTime;
         publishedAt: Attribute.DateTime;

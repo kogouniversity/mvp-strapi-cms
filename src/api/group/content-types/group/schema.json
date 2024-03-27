@@ -44,6 +44,28 @@
         },
         "enabled": {
             "type": "boolean"
+        },
+        "users": {
+          "type": "relation",
+          "relation": "manyToMany",
+          "target": "plugin::users-permissions.user",
+          "mappedBy": "groups"
+        },
+        "description": {
+          "type": "text",
+          "maxLength": 100
+        },
+        "icon": {
+          "type": "media",
+          "multiple": false,
+          "required": false,
+          "allowedTypes": [
+            "images"
+          ]
+        },
+        "userCount": {
+          "type": "integer",
+          "default": 0
         }
-    }
+      }
 }
