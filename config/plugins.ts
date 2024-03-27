@@ -1,4 +1,31 @@
 module.exports = ({ env }) => ({
+  documentation: {
+    enabled: false
+  },
+  'user-permissions': {
+    config: {
+      jwt: {
+        expiresIn: env('JWT_EXPIRES'),
+      },
+    }
+  },
+  redis: {
+    config: {
+      connections: {
+        default: {
+          connection: {
+            host: env('REDIS_HOST', 'localhost'),
+            port: env('REDIS_PORT', 6379),
+            db: 0,
+          },
+          settings: {
+            debug: false,
+          },
+        },
+      },
+    },
+  },
+  email: {},
   upload: {
     enabled: env('AWS_S3_ENABLED', false),
     config: {

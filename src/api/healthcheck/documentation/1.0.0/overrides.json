@@ -1,0 +1,21 @@
+{
+    "paths": {
+        "/healthcheck": {
+            "get": {
+                "tags": ["Health Check"],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string",
+                                    "example": "ok"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

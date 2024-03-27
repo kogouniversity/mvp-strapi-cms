@@ -1,0 +1,82 @@
+{
+    "paths": {
+        "/auth/local/email-verification": {
+            "post": {
+                "tags": ["Auth"],
+                "deprecated": false,
+                "description": "User verification API through the verification code sent to a user email.",
+                "responses": {
+                    "200": {
+                        "description": "response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "count": {
+                                            "type": "integer"
+                                        },
+                                        "foo": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/local/resend-email-verification": {
+            "post": {
+                "tags": ["Auth"],
+                "deprecated": false,
+                "description": "Request a new verification code to a user email.",
+                "responses": {
+                    "200": {
+                        "description": "response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "count": {
+                                            "type": "integer"
+                                        },
+                                        "foo": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/local/refresh-token": {
+            "post": {
+                "tags": ["Auth"],
+                "deprecated": false,
+                "description": "Refresh the requested user's access token through the refresh token.",
+                "responses": {
+                    "200": {
+                        "description": "response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "count": {
+                                            "type": "integer"
+                                        },
+                                        "foo": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
