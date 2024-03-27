@@ -1,7 +1,6 @@
 export default {
     async afterUpdate(event) {
-        console.log('lifecycle for group is triggered!');
-
+    
         const { result } = event;
 
         if (result.users) {
@@ -13,5 +12,5 @@ export default {
                 },
             });
         }
-    },
+    }
 };
