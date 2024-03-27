@@ -23,12 +23,12 @@ export interface AdminPermission extends Schema.CollectionType {
             Attribute.SetMinMaxLength<{
                 minLength: 1;
             }>;
-        actionParameters: Attribute.JSON & Attribute.DefaultTo<object>;
+        actionParameters: Attribute.JSON & Attribute.DefaultTo<{}>;
         subject: Attribute.String &
             Attribute.SetMinMaxLength<{
                 minLength: 1;
             }>;
-        properties: Attribute.JSON & Attribute.DefaultTo<object>;
+        properties: Attribute.JSON & Attribute.DefaultTo<{}>;
         conditions: Attribute.JSON & Attribute.DefaultTo<[]>;
         role: Attribute.Relation<'admin::permission', 'manyToOne', 'admin::role'>;
         createdAt: Attribute.DateTime;
@@ -333,6 +333,11 @@ export interface ApiGroupGroup extends Schema.CollectionType {
             }>;
         posts: Attribute.Relation<'api::group.group', 'oneToMany', 'api::post.post'>;
         users: Attribute.Relation<'api::group.group', 'manyToMany', 'plugin::users-permissions.user'>;
+        description: Attribute.Text &
+            Attribute.SetMinMaxLength<{
+                maxLength: 100;
+            }>;
+        icon: Attribute.Media;
         createdAt: Attribute.DateTime;
         updatedAt: Attribute.DateTime;
         publishedAt: Attribute.DateTime;
@@ -686,21 +691,9 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
         confirmationToken: Attribute.String & Attribute.Private;
         confirmed: Attribute.Boolean & Attribute.DefaultTo<false>;
         blocked: Attribute.Boolean & Attribute.DefaultTo<false>;
-        role: Attribute.Relation<
-            'plugin::users-permissions.user',
-            'manyToOne',
-            'plugin::users-permissions.role'
-        >;
-        groups: Attribute.Relation<
-            'plugin::users-permissions.user',
-            'manyToMany',
-            'api::group.group'
-        >;
-        school: Attribute.Relation<
-            'plugin::users-permissions.user',
-            'oneToOne',
-            'api::school.school'
-        >;
+        role: Attribute.Relation<'plugin::users-permissions.user', 'manyToOne', 'plugin::users-permissions.role'>;
+        groups: Attribute.Relation<'plugin::users-permissions.user', 'manyToMany', 'api::group.group'>;
+        school: Attribute.Relation<'plugin::users-permissions.user', 'oneToOne', 'api::school.school'>;
         UUID: Attribute.UID<
             undefined,
             undefined,
