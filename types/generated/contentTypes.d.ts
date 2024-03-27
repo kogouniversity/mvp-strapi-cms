@@ -783,6 +783,19 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
             'oneToOne',
             'api::school.school'
         >;
+        UUID: Attribute.UID<
+            undefined,
+            undefined,
+            {
+                'uuid-format': '^[A-Za-z0-9]{32}$';
+            }
+        > &
+            Attribute.CustomField<
+                'plugin::strapi-advanced-uuid.uuid',
+                {
+                    'uuid-format': '^[A-Za-z0-9]{32}$';
+                }
+            >;
         createdAt: Attribute.DateTime;
         updatedAt: Attribute.DateTime;
         createdBy: Attribute.Relation<

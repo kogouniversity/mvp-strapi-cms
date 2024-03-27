@@ -3051,7 +3051,7 @@
     "@strapi/utils" "4.16.2"
     fs-extra "10.0.0"
 
-"@strapi/strapi@^4.0.0", "@strapi/strapi@^4.15.1", "@strapi/strapi@^4.3.4", "@strapi/strapi@^4.4.0", "@strapi/strapi@4.16.2":
+"@strapi/strapi@^4.0.0", "@strapi/strapi@^4.14.5", "@strapi/strapi@^4.15.1", "@strapi/strapi@^4.3.4", "@strapi/strapi@^4.4.0", "@strapi/strapi@4.16.2":
   version "4.16.2"
   resolved "https://registry.npmjs.org/@strapi/strapi/-/strapi-4.16.2.tgz"
   integrity sha512-ARYewyc6eL3LObR60XLFVTNEJJLt97CKvYlMBaE2PUEMYwcOYZEmhDng5fHNcEIIg+3vXQV7KKj4lTw+uFBQ1g==
@@ -5962,6 +5962,11 @@ dotenv@14.2.0:
   version "14.2.0"
   resolved "https://registry.npmjs.org/dotenv/-/dotenv-14.2.0.tgz"
   integrity sha512-05POuPJyPpO6jqzTNweQFfAyMSD4qa4lvsMOWyTRTdpHKy6nnnN+IYWaXF+lHivhBH/ufDKlR4IWCAN3oPnHuw==
+
+drange@^1.0.2:
+  version "1.1.1"
+  resolved "https://registry.npmjs.org/drange/-/drange-1.1.1.tgz"
+  integrity sha512-pYxfDYpued//QpnLIm4Avk7rsNtAtQkUES2cwAYSvD/wd2pKD71gN2Ebj3e7klzXwjocvE8c5vx/1fxwpqmSxA==
 
 duplexer@^0.1.2:
   version "0.1.2"
@@ -10927,6 +10932,14 @@ quick-lru@^5.1.1:
   resolved "https://registry.npmjs.org/quick-lru/-/quick-lru-5.1.1.tgz"
   integrity sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==
 
+randexp@^0.5.3:
+  version "0.5.3"
+  resolved "https://registry.npmjs.org/randexp/-/randexp-0.5.3.tgz"
+  integrity sha512-U+5l2KrcMNOUPYvazA3h5ekF80FHTUG+87SEAmHZmolh1M+i/WyTCxVzmi+tidIa1tM4BSe8g2Y/D3loWDjj+w==
+  dependencies:
+    drange "^1.0.2"
+    ret "^0.2.0"
+
 randombytes@^2.1.0:
   version "2.1.0"
   resolved "https://registry.npmjs.org/randombytes/-/randombytes-2.1.0.tgz"
@@ -11109,7 +11122,7 @@ react-remove-scroll@2.5.5:
     use-callback-ref "^1.3.0"
     use-sidecar "^1.1.2"
 
-react-router-dom@^5.2.0, react-router-dom@5.3.4:
+react-router-dom@^5.2.0, react-router-dom@^5.3.4, react-router-dom@5.3.4:
   version "5.3.4"
   resolved "https://registry.npmjs.org/react-router-dom/-/react-router-dom-5.3.4.tgz"
   integrity sha512-m4EqFMHv/Ih4kpcBCONHbkT68KoAeHN4p3lAGoNryfHi0dMy0kCzEZakiKRsvg5wHZ/JLrLW8o8KomWiz/qbYQ==
@@ -11522,6 +11535,11 @@ restore-cursor@^4.0.0:
   dependencies:
     onetime "^5.1.0"
     signal-exit "^3.0.2"
+
+ret@^0.2.0:
+  version "0.2.2"
+  resolved "https://registry.npmjs.org/ret/-/ret-0.2.2.tgz"
+  integrity sha512-M0b3YWQs7R3Z917WRQy1HHA7Ba7D8hvZg6UE5mLykJxQVE2ju0IXbGlaHPPlkY+WN7wFP+wUMXmBFA0aV6vYGQ==
 
 ret@~0.1.10:
   version "0.1.15"
@@ -12218,6 +12236,14 @@ statuses@2.0.1:
   resolved "https://registry.npmjs.org/statuses/-/statuses-2.0.1.tgz"
   integrity sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==
 
+strapi-advanced-uuid@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.npmjs.org/strapi-advanced-uuid/-/strapi-advanced-uuid-1.3.0.tgz"
+  integrity sha512-WhsZ8XEOTkIJ7hxUeh5sYaJknd61Ei8CpOZYj44HEDzy/3J1gK9ESdclFfbc7Gdzeb7LEBZDmmoZ1QqLs4rr5g==
+  dependencies:
+    randexp "^0.5.3"
+    uuid "^9.0.1"
+
 stream-browserify@3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/stream-browserify/-/stream-browserify-3.0.0.tgz"
@@ -12401,7 +12427,7 @@ style-mod@^4.0.0, style-mod@^4.1.0:
   resolved "https://registry.npmjs.org/style-mod/-/style-mod-4.1.0.tgz"
   integrity sha512-Ca5ib8HrFn+f+0n4N4ScTIA9iTOQ7MaGS1ylHcoVqW9J7w2w8PzN6g9gKmTYgGEBH8e120+RCmhpje6jC5uGWA==
 
-styled-components@^5.2.1, "styled-components@>= 2", styled-components@5.3.3:
+styled-components@^5.2.1, "styled-components@^5.3.3 || ^6.1.0", "styled-components@>= 2", styled-components@5.3.3:
   version "5.3.3"
   resolved "https://registry.npmjs.org/styled-components/-/styled-components-5.3.3.tgz"
   integrity sha512-++4iHwBM7ZN+x6DtPPWkCI4vdtwumQ+inA/DdAsqYd4SVgUKJie5vXyzotA00ttcFdQkCng7zc6grwlfIfw+lw==
@@ -13131,6 +13157,11 @@ uuid@^8.3.2:
   version "8.3.2"
   resolved "https://registry.npmjs.org/uuid/-/uuid-8.3.2.tgz"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
+
+uuid@^9.0.1:
+  version "9.0.1"
+  resolved "https://registry.npmjs.org/uuid/-/uuid-9.0.1.tgz"
+  integrity sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==
 
 v8-to-istanbul@^9.0.1:
   version "9.2.0"
