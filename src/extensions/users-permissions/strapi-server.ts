@@ -9,7 +9,8 @@ export default plugin => {
     plugin.services.refreshToken = refreshTokenService;
 
     // extension of register controller
-    registerOverride(plugin);
+    const { register } = plugin.controllers.auth;
+    plugin.controllers.auth.register = registerOverride(register);
 
     return plugin;
 };

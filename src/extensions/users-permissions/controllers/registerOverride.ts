@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import emailVerificationService from '../services/emailVerification';
 import refreshTokenService from '../services/refrehToken';
 
@@ -8,7 +9,7 @@ function validateEmailFormat(email: string): void {
             .match(
                 /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
             );
-    if (!validateEmail(email)) throw new Error('Bad email format.');
+    if (!validateEmail(email)) throw new Error('Invalid email format.');
 }
 
 async function validateEmailDomain(email: string) {
@@ -20,18 +21,45 @@ async function validateEmailDomain(email: string) {
     const emailDomain = domainString[domainString.length - 2].concat('.', domainString[domainString.length - 1]);
 
     if (!schoolDomains.includes(emailDomain)) {
-        throw new Error('Not a registered school domain');
+        throw new Error('Given email is not a registered school domain');
     }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
-export default function registerOverride(plugin: any) {
-    const { register } = plugin.controllers.auth;
+async function validateUsername(username: string) {
+    z.string()
+        .refine(s => s.length >= 6 && s.length <= 15, 'Username must be between 6 to 15 characters.')
+        .parse(username);
+    z.string()
+        .refine(s => !s.includes(' '), 'Username must not contain a whitespace.')
+        .parse(username);
+    z.string()
+        .refine(s => !/^[a-zA-Z0-9]$/.test(s), 'Username must not contain a special character e.g. !@#$%^&*.')
+        .parse(username);
+}
 
+async function validatePassword(password: string) {
+    z.string()
+        .refine(s => s.length >= 8 && s.length <= 15, 'Password must be between 8 to 15 characters.')
+        .parse(password);
+    z.string()
+        .refine(s => !s.includes(' '), 'Password must not include a whitespace')
+        .parse(password);
+    z.string()
+        .refine(
+            s => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]$/.test(s),
+            'Password must contain one uppercase letter and one special character.',
+        )
+        .parse(password);
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+export default function registerOverride(register: (ctx: any) => Promise<any>) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, no-param-reassign
-    plugin.controllers.auth.register = async (ctx: any) => {
-        const { email } = ctx.request.body;
+    return async (ctx: any) => {
+        const { username, password, email } = ctx.request.body;
         try {
+            validateUsername(username);
+            validatePassword(password);
             validateEmailFormat(email);
             validateEmailDomain(email);
         } catch (err) {
