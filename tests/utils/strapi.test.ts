@@ -1,4 +1,4 @@
-import { strapiSetUp, strapiCleanUp } from './helpers/strapi';
+import { strapiSetUp, strapiCleanUp } from './strapi';
 
 beforeAll(async () => {
     await strapiSetUp();

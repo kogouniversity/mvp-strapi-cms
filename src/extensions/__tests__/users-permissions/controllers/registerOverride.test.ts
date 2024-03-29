@@ -1,5 +1,3 @@
-// import request from 'supertest';
-
 it('should return user, jwt, and refresh token', () => {});
 
 describe('Auth/Register Controller', () => {

@@ -1,5 +1,5 @@
 {
-  "/comments": {
+  "/addresses": {
     "get": {
       "responses": {
         "200": {
@@ -7,7 +7,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CommentListResponse"
+                "$ref": "#/components/schemas/AddressListResponse"
               }
             }
           }
@@ -64,7 +64,7 @@
         }
       },
       "tags": [
-        "Comment"
+        "Address"
       ],
       "parameters": [
         {
@@ -169,7 +169,7 @@
           }
         }
       ],
-      "operationId": "get/comments"
+      "operationId": "get/addresses"
     },
     "post": {
       "responses": {
@@ -178,7 +178,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CommentResponse"
+                "$ref": "#/components/schemas/AddressResponse"
               }
             }
           }
@@ -235,23 +235,23 @@
         }
       },
       "tags": [
-        "Comment"
+        "Address"
       ],
       "parameters": [],
-      "operationId": "post/comments",
+      "operationId": "post/addresses",
       "requestBody": {
         "required": true,
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/CommentRequest"
+              "$ref": "#/components/schemas/AddressRequest"
             }
           }
         }
       }
     }
   },
-  "/comments/{id}": {
+  "/addresses/{id}": {
     "get": {
       "responses": {
         "200": {
@@ -259,7 +259,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CommentResponse"
+                "$ref": "#/components/schemas/AddressResponse"
               }
             }
           }
@@ -316,7 +316,7 @@
         }
       },
       "tags": [
-        "Comment"
+        "Address"
       ],
       "parameters": [
         {
@@ -330,7 +330,7 @@
           }
         }
       ],
-      "operationId": "get/comments/{id}"
+      "operationId": "get/addresses/{id}"
     },
     "put": {
       "responses": {
@@ -339,7 +339,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CommentResponse"
+                "$ref": "#/components/schemas/AddressResponse"
               }
             }
           }
@@ -396,7 +396,7 @@
         }
       },
       "tags": [
-        "Comment"
+        "Address"
       ],
       "parameters": [
         {
@@ -410,13 +410,13 @@
           }
         }
       ],
-      "operationId": "put/comments/{id}",
+      "operationId": "put/addresses/{id}",
       "requestBody": {
         "required": true,
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/CommentRequest"
+              "$ref": "#/components/schemas/AddressRequest"
             }
           }
         }
@@ -487,7 +487,7 @@
         }
       },
       "tags": [
-        "Comment"
+        "Address"
       ],
       "parameters": [
         {
@@ -501,7 +501,7 @@
           }
         }
       ],
-      "operationId": "delete/comments/{id}"
+      "operationId": "delete/addresses/{id}"
     }
   }
 }
