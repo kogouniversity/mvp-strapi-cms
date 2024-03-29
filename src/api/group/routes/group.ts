@@ -1,17 +1,6 @@
 /**
  * group router
  */
+import { factories } from '@strapi/strapi';
 
-export default {
-    routes: [
-        {
-            method: 'POST',
-            path: '/group/nearbySearch',
-            handler: 'group.nearbySearch',
-            config: {
-                policies: [],
-                middlewares: [],
-            },
-        },
-    ],
-};
+export default factories.createCoreRouter('api::group.group');
