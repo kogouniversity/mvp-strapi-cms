@@ -1,3 +1,25 @@
+// import request from 'supertest';
+
+it('should return user, jwt, and refresh token', () => {});
+
+describe('Auth/Register Controller', () => {
+    beforeEach(() => {});
+    describe('invalid email', () => {
+        it('should error if email already exists', () => {});
+        it('should error if email is not a valid format', () => {});
+        it('should error if email is not a registered school email', () => {});
+    });
+
+    describe('invalid username', () => {
+        it('should error if username already exists', () => {});
+        it('should error if username is not valid', () => {});
+    });
+
+    describe('invalid password', () => {
+        it('should error if password is not valid', () => {});
+    });
+});
+
 /*
 {
     "data": null,

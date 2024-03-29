@@ -75,6 +75,18 @@
             "type": "relation",
             "relation": "oneToOne",
             "target": "api::address.address"
+        },
+        "school": {
+            "type": "relation",
+            "relation": "oneToOne",
+            "target": "api::school.school"
+        },
+        "UUID": {
+            "type": "customField",
+            "options": {
+                "uuid-format": "^[A-Za-z0-9]{32}$"
+            },
+            "customField": "plugin::strapi-advanced-uuid.uuid"
         }
     }
 }
