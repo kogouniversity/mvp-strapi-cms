@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2024-03-27T01:12:08.659Z"
+    "x-generation-date": "2024-03-27T14:26:07.986Z"
   },
   "x-strapi-config": {
     "path": "/documentation",
@@ -1258,6 +1258,9 @@
                                         }
                                       }
                                     },
+                                    "userCount": {
+                                      "type": "integer"
+                                    },
                                     "createdAt": {
                                       "type": "string",
                                       "format": "date-time"
@@ -1595,6 +1598,9 @@
                   }
                 ],
                 "example": "string or id"
+              },
+              "userCount": {
+                "type": "integer"
               }
             }
           }
@@ -2560,6 +2566,9 @@
                                                       }
                                                     }
                                                   },
+                                                  "userCount": {
+                                                    "type": "integer"
+                                                  },
                                                   "createdAt": {
                                                     "type": "string",
                                                     "format": "date-time"
@@ -3089,6 +3098,9 @@
                 }
               }
             }
+          },
+          "userCount": {
+            "type": "integer"
           },
           "createdAt": {
             "type": "string",
@@ -4353,6 +4365,9 @@
                                           }
                                         }
                                       }
+                                    },
+                                    "userCount": {
+                                      "type": "integer"
                                     },
                                     "createdAt": {
                                       "type": "string",
@@ -5957,6 +5972,9 @@
                             }
                           }
                         }
+                      },
+                      "userCount": {
+                        "type": "integer"
                       },
                       "createdAt": {
                         "type": "string",
