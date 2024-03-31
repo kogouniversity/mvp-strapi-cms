@@ -11,10 +11,12 @@ export default {
      * This gives you an opportunity to extend code.
      */
     register({ strapi }) {
-        const docOverrideService = strapi.plugin('documentation').service('override');
-        docOverrideService.registerOverride(healthCheckApiDocOverrides);
-        docOverrideService.registerOverride(authApiDocOverrides);
-        docOverrideService.registerOverride(userPluginApiDocOverrides);
+        if (strapi.plugin('documentation')) {
+            const docOverrideService = strapi.plugin('documentation').service('override');
+            docOverrideService.registerOverride(healthCheckApiDocOverrides);
+            docOverrideService.registerOverride(authApiDocOverrides);
+            docOverrideService.registerOverride(userPluginApiDocOverrides);
+        }
     },
 
     /**
@@ -85,7 +87,7 @@ export default {
             },
 
             async beforeDelete(event) {
-                const {params} = event;
+                const { params } = event;
 
                 const Groups = await strapi.query('plugin::users-permissions.user').findOne({
                     where: { id: params.where.id },

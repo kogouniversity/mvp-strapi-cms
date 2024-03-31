@@ -1,20 +1,146 @@
-it('should return user, jwt, and refresh token', () => {});
+import registerOverride from '../../../users-permissions/controllers/registerOverride';
+import emailVerificationService from '../../../users-permissions/services/emailVerification';
+import refreshTokenService from '../../../users-permissions/services/refrehToken';
+
+/**
+ * Mock Strapi context
+ */
+let strapi;
+let ctx;
+
+/**
+ * Fixtures
+ */
+const registerMock = jest.fn().mockResolvedValue(() => null);
+const mockUnauthenticatedRole = {
+    id: 353,
+    type: 'Unauthenticated',
+};
+const mockUser = {
+    id: 1,
+    username: 'testuser',
+    email: 'test@strapi.com',
+};
+
+/**
+ * Module mocks
+ */
+jest.mock('../../../users-permissions/services/emailVerification', () => ({
+    sendVerificationEmail: jest.fn(),
+}));
+jest.mock('../../../users-permissions/services/refrehToken', () => ({
+    issueRefeshToken: jest.fn().mockResolvedValue('refreshsecret'),
+}));
 
 describe('Auth/Register Controller', () => {
-    beforeEach(() => {});
-    describe('invalid email', () => {
-        it('should error if email already exists', () => {});
-        it('should error if email is not a valid format', () => {});
-        it('should error if email is not a registered school email', () => {});
+    beforeEach(async () => {
+        jest.clearAllMocks();
+        strapi = {
+            entityService: {
+                findMany: jest.fn().mockImplementation((model: string) => {
+                    if (model === 'plugin::users-permissions.role')
+                        return new Promise(resolve => {
+                            resolve([mockUnauthenticatedRole]);
+                        });
+                    if (model === 'api::school.school')
+                        return new Promise(resolve => {
+                            resolve([{ schoolEmailDomain: 'strapi.com' }]);
+                        });
+                    return null;
+                }),
+                update: jest.fn().mockImplementation((model: string) => {
+                    if (model === 'plugin::users-permissions.user')
+                        return new Promise(resolve => {
+                            resolve(mockUser);
+                        });
+                    return null;
+                }),
+            },
+        };
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        global.strapi = strapi as any;
+
+        ctx = {
+            request: {
+                body: {
+                    username: mockUser.username,
+                    email: mockUser.email,
+                    password: '#Testpassword1',
+                },
+            },
+            response: {
+                body: { jwt: 'jwtsecret', user: mockUser },
+            },
+            badRequest: jest.fn(),
+            send: jest.fn(),
+        };
+    });
+
+    describe('valid request', () => {
+        it('should return user, jwt, and refresh token', async () => {
+            const registerFn = registerOverride(registerMock);
+            await registerFn(ctx);
+            expect(registerMock).toHaveBeenCalled();
+            // expect user assigned the unauthenticated role
+            expect(strapi.entityService.update).toHaveBeenCalledTimes(1);
+            expect(strapi.entityService.update).toHaveBeenCalledWith('plugin::users-permissions.user', mockUser.id, {
+                data: {
+                    confirmed: false,
+                    role: mockUnauthenticatedRole.id,
+                },
+            });
+            // expect a verification email is sent
+            expect(emailVerificationService.sendVerificationEmail).toHaveBeenCalledWith(mockUser.id, mockUser.email);
+            // expect a refresh token is issued
+            expect(refreshTokenService.issueRefeshToken).toHaveBeenCalledWith(mockUser.id);
+            expect(ctx.send).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    user: mockUser,
+                    refreshToken: 'refreshsecret',
+                    emailVerification: {
+                        message: `verification code is sent to ${mockUser.email}`,
+                    },
+                }),
+                200,
+            );
+        });
     });
 
     describe('invalid username', () => {
-        it('should error if username already exists', () => {});
-        it('should error if username is not valid', () => {});
+        it('should error if username is not valid', async () => {
+            const registerFn = registerOverride(registerMock);
+            ctx.request.body.username = 'aaa';
+            await registerFn(ctx);
+            expect(ctx.badRequest).toHaveBeenCalledWith('Username must be between 6 to 15 characters.');
+            ctx.request.body.username = 'test username';
+            await registerFn(ctx);
+            expect(ctx.badRequest).toHaveBeenCalledWith('Username must not contain a whitespace.');
+            ctx.request.body.username = 'test!!username';
+            await registerFn(ctx);
+            expect(ctx.badRequest).toHaveBeenCalledWith('Username must not contain a special character.');
+            expect(registerMock).not.toHaveBeenCalled();
+        });
     });
 
     describe('invalid password', () => {
-        it('should error if password is not valid', () => {});
+        it('should error if password is not valid', async () => {});
+    });
+
+    describe('invalid email', () => {
+        it('should error if email is not a valid format', async () => {
+            ctx.request.body.email = 'invalidEmailFormat';
+            const registerFn = registerOverride(registerMock);
+            await registerFn(ctx);
+            expect(registerMock).not.toHaveBeenCalled();
+            expect(ctx.badRequest).toHaveBeenCalledWith('Invalid email format.');
+        });
+        it('should error if email is not a registered school email', async () => {
+            ctx.request.body.email = 'random@gmail.com';
+            const registerFn = registerOverride(registerMock);
+            await registerFn(ctx);
+            expect(registerMock).not.toHaveBeenCalled();
+            expect(ctx.badRequest).toHaveBeenCalledWith('Given email is not a registered school domain.');
+        });
     });
 });
 
