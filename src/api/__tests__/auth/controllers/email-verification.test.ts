@@ -1,3 +1,13 @@
+/**
+ * Mock Strapi context
+ */
+
+/**
+ * Fixtures
+ */
+
+describe('Auth/Controller/Email-Verification', () => {});
+
 /*
 {
     "message": "User is authenticated",

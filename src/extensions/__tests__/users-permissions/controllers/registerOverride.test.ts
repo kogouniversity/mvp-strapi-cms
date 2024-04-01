@@ -1,6 +1,7 @@
 import registerOverride from '../../../users-permissions/controllers/registerOverride';
 import emailVerificationService from '../../../users-permissions/services/emailVerification';
 import refreshTokenService from '../../../users-permissions/services/refrehToken';
+import { mountGlobalStrapi } from '../../../../utils/strapi';
 
 /**
  * Mock Strapi context
@@ -32,10 +33,10 @@ jest.mock('../../../users-permissions/services/refrehToken', () => ({
     issueRefeshToken: jest.fn().mockResolvedValue('refreshsecret'),
 }));
 
-describe('Auth/Register Controller', () => {
+describe('Auth/Controller/Register', () => {
     beforeEach(async () => {
         jest.clearAllMocks();
-        strapi = {
+        strapi = mountGlobalStrapi({
             entityService: {
                 findMany: jest.fn().mockImplementation((model: string) => {
                     if (model === 'plugin::users-permissions.role')
@@ -56,9 +57,7 @@ describe('Auth/Register Controller', () => {
                     return null;
                 }),
             },
-        };
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        global.strapi = strapi as any;
+        });
 
         ctx = {
             request: {
@@ -123,7 +122,21 @@ describe('Auth/Register Controller', () => {
     });
 
     describe('invalid password', () => {
-        it('should error if password is not valid', async () => {});
+        it('should error if password is not valid', async () => {
+            const registerFn = registerOverride(registerMock);
+            ctx.request.body.password = 'aaa';
+            await registerFn(ctx);
+            expect(ctx.badRequest).toHaveBeenCalledWith('Password must be at least 8 characters.');
+            ctx.request.body.password = '#Sample Pwrd1';
+            await registerFn(ctx);
+            expect(ctx.badRequest).toHaveBeenCalledWith('Password must not include a whitespace.');
+            ctx.request.body.password = 'SamplePassword';
+            await registerFn(ctx);
+            expect(ctx.badRequest).toHaveBeenCalledWith(
+                'Password must contain one uppercase letter, one number, and one special character.',
+            );
+            expect(registerMock).not.toHaveBeenCalled();
+        });
     });
 
     describe('invalid email', () => {
