@@ -33,7 +33,7 @@ export default {
 
             async beforeUpdate(event) {
                 const { data } = event.params;
-                const UserwithGroups = await strapi.query('plugin::users-permissions.user').findOne({
+                const UserWithGroups = await strapi.query('plugin::users-permissions.user').findOne({
                     where: { UUID: data.UUID },
                     populate: ['groups'],
                 });
@@ -41,20 +41,20 @@ export default {
                 // Store the state in a separate variable instead of modifying event.state
                 // eslint-disable-next-line no-param-reassign
                 event.state = {
-                    previousGroups: UserwithGroups.groups,
+                    previousGroups: UserWithGroups ? UserWithGroups.groups : [],
                 };
             },
 
             async afterUpdate(event) {
                 const { result, state } = event;
-                const UserwithGroups = await strapi.query('plugin::users-permissions.user').findOne({
+                const UserWithGroups = await strapi.query('plugin::users-permissions.user').findOne({
                     where: { UUID: result.UUID },
                     populate: ['groups'],
                 });
 
                 // Extract the IDs of groups before and after update
                 const previousGroupIds = state.previousGroups.map(group => group.id);
-                const currentGroupIds = UserwithGroups.groups.map(group => group.id);
+                const currentGroupIds = UserWithGroups.groups.map(group => group.id);
 
                 // Find the added and removed group ID
                 const addedGroupId = currentGroupIds.filter(id => !previousGroupIds.includes(id));

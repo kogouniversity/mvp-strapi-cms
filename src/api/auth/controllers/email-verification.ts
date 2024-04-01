@@ -1,15 +1,20 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
 /**
  * A set of functions called "actions" for `email-verification`
  */
 export default {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async confirmCode(ctx: any): Promise<void> {
         const code = ctx.request.body.code.toLowerCase();
         const verificationCode = await strapi
             .service('plugin::users-permissions.emailVerification')
             .getEmailVerificationCode(ctx.state.user.id);
+
+        if (!verificationCode) {
+            return ctx.badRequest('The verification code is not found, or is expired.');
+        }
+
         if (code === verificationCode) {
             const authenticatedRole = await strapi.entityService.findMany('plugin::users-permissions.role', {
                 filters: { type: 'Authenticated' },
@@ -29,6 +34,6 @@ export default {
                 200,
             );
         }
-        return ctx.badRequest('Wrong or Invalid code');
+        return ctx.badRequest('The verification code is not matched.');
     },
 };
