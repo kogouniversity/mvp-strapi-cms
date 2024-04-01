@@ -5,6 +5,10 @@ async function createEmailVerificationCodeForUser(userId: string) {
     if (!userId) throw new Error('user id is undefined.');
     const randomString = generateRandomString(6);
     await redis().set(`usr-${userId}-email-verification-codes`, randomString);
+    await redis().expire(
+        `usr-${userId}-email-verification-codes`,
+        parseInt(strapi.config.get('application.auth.refresh.refreshExpiry'), 10),
+    );
     return randomString.toUpperCase();
 }
 

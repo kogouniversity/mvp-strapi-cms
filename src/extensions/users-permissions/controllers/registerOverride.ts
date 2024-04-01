@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { ZodError, z } from 'zod';
 import emailVerificationService from '../services/emailVerification';
 import refreshTokenService from '../services/refrehToken';
 
@@ -20,36 +20,40 @@ async function validateEmailDomain(email: string) {
     const domainString = email.toString().split('@')[1].split('.');
     const emailDomain = domainString[domainString.length - 2].concat('.', domainString[domainString.length - 1]);
 
-    if (!schoolDomains.includes(emailDomain)) {
-        throw new Error('Given email is not a registered school domain');
+    if (!schoolDomains.includes(emailDomain)) throw new Error('Given email is not a registered school domain.');
+}
+
+function validateUsername(username: string) {
+    try {
+        z.string()
+            .refine(s => s.length >= 6 && s.length <= 15, 'Username must be between 6 to 15 characters.')
+            .parse(username);
+        z.string()
+            .refine(s => !s.includes(' '), 'Username must not contain a whitespace.')
+            .parse(username);
+        z.string()
+            .refine(s => /^[a-zA-Z0-9]{6,15}$/.test(s), 'Username must not contain a special character.')
+            .parse(username);
+    } catch (err) {
+        throw new Error((err as ZodError).issues[0].message);
     }
 }
 
-async function validateUsername(username: string) {
-    z.string()
-        .refine(s => s.length >= 6 && s.length <= 15, 'Username must be between 6 to 15 characters.')
-        .parse(username);
-    z.string()
-        .refine(s => !s.includes(' '), 'Username must not contain a whitespace.')
-        .parse(username);
-    z.string()
-        .refine(s => !/^[a-zA-Z0-9]$/.test(s), 'Username must not contain a special character e.g. !@#$%^&*.')
-        .parse(username);
-}
-
-async function validatePassword(password: string) {
-    z.string()
-        .refine(s => s.length >= 8 && s.length <= 15, 'Password must be between 8 to 15 characters.')
-        .parse(password);
-    z.string()
-        .refine(s => !s.includes(' '), 'Password must not include a whitespace')
-        .parse(password);
-    z.string()
-        .refine(
-            s => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]$/.test(s),
-            'Password must contain one uppercase letter and one special character.',
-        )
-        .parse(password);
+function validatePassword(password: string) {
+    try {
+        z.string().min(8, 'Password must be at least 8 characters.').parse(password);
+        z.string()
+            .refine(s => !s.includes(' '), 'Password must not include a whitespace.')
+            .parse(password);
+        z.string()
+            .refine(
+                s => /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(s),
+                'Password must contain one uppercase letter, one number, and one special character.',
+            )
+            .parse(password);
+    } catch (err) {
+        throw new Error((err as ZodError).issues[0].message);
+    }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
@@ -61,7 +65,7 @@ export default function registerOverride(register: (ctx: any) => Promise<any>) {
             validateUsername(username);
             validatePassword(password);
             validateEmailFormat(email);
-            validateEmailDomain(email);
+            await validateEmailDomain(email);
         } catch (err) {
             return ctx.badRequest(err.message);
         }
@@ -93,7 +97,7 @@ export default function registerOverride(register: (ctx: any) => Promise<any>) {
                 user,
                 refreshToken,
                 emailVerification: {
-                    message: `verification code is sent to ${ctx.request.body.email}`,
+                    message: `verification code is sent to ${email}`,
                 },
             },
             200,

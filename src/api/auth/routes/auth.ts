@@ -6,7 +6,7 @@ export default {
             handler: 'email-verification.confirmCode',
             config: {
                 policies: [],
-                middlewares: [],
+                middlewares: ['api::auth.validate-email-verification'],
             },
         },
         {
@@ -25,8 +25,8 @@ export default {
             config: {
                 policies: [],
                 middlewares: [],
+                auth: false,
             },
-            auth: false,
         },
     ],
 };
