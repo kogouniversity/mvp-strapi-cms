@@ -27,7 +27,7 @@ describe('Auth/Controller/Resend-Email-Verification', () => {
             send: jest.fn(),
         };
     });
-    it('should return a new jwt access token', async () => {
+    it('should send a new verification code mail', async () => {
         mountGlobalStrapi({
             service() {
                 return { sendVerificationEmail: jest.fn().mockResolvedValue(null) };
