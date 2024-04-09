@@ -1,46 +1,52 @@
 {
-    "kind": "collectionType",
-    "collectionName": "addresses",
-    "info": {
-        "singularName": "address",
-        "pluralName": "addresses",
-        "displayName": "Address",
-        "description": ""
+  "kind": "collectionType",
+  "collectionName": "addresses",
+  "info": {
+    "singularName": "address",
+    "pluralName": "addresses",
+    "displayName": "Address",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "country": {
+      "type": "string",
+      "required": true
     },
-    "options": {
-        "draftAndPublish": true
+    "city": {
+      "type": "string",
+      "required": true
     },
-    "pluginOptions": {},
-    "attributes": {
-        "country": {
-            "type": "string",
-            "required": true
-        },
-        "city": {
-            "type": "string",
-            "required": true
-        },
-        "street_name": {
-            "type": "string",
-            "required": true
-        },
-        "postal_code": {
-            "type": "string",
-            "required": true
-        },
-        "alias": {
-            "type": "string"
-        },
-        "type": {
-            "type": "string",
-            "unique": true,
-            "required": true
-        },
-        "longitude": {
-            "type": "float"
-        },
-        "latitude": {
-            "type": "float"
-        }
+    "street_name": {
+      "type": "string",
+      "required": true
+    },
+    "postal_code": {
+      "type": "string",
+      "required": true
+    },
+    "alias": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "unique": false,
+      "required": true
+    },
+    "longitude": {
+      "type": "float"
+    },
+    "latitude": {
+      "type": "float"
+    },
+    "campus": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::campus.campus",
+      "inversedBy": "campusAddress"
     }
+  }
 }
