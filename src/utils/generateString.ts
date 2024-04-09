@@ -1,4 +1,4 @@
-import redis from './redis';
+// import redis from './redis';
 
 export function generateRandomString(length: number) {
     const charset = 'abcdefghijklmnopqrstuvwxyz0123456789';
@@ -12,12 +12,14 @@ export function generateRandomString(length: number) {
     return result;
 }
 
+/*
 interface GenerateUniqueStringParams {
     userId: string;
     keyName: string;
     stringLength?: number;
     overwriteIfExist?: boolean;
 }
+*/
 /**
  * Generate unique string for user using Redis.
  * @param userId
@@ -26,6 +28,7 @@ interface GenerateUniqueStringParams {
  * @param overwriteIfExist if false, then it will return False if a record exists and is not expired yet for the user
  * @returns {string} generated unique id, throw error if a record already existed and overwriteIfExist is set to false
  */
+/*
 export async function generateUniqueStringForUser({
     userId,
     keyName,
@@ -86,3 +89,4 @@ export async function getUniqueString({ userId, keyName }: GetUniqueStringOfUser
         });
     return numericForm.toString(36).replace(/0/g, 'a');
 }
+*/
