@@ -88,7 +88,14 @@ export default function registerOverride(register: (ctx: any) => Promise<any>) {
             },
         });
 
-        emailVerificationService.sendVerificationEmail(user.id as string, email);
+        const { code, expires } = await emailVerificationService.createEmailVerificationCodeForUser(user.id as string);
+        const emailToSend = {
+            to: email,
+            from: '1234@gmail.com',
+            subject: 'Thank you for joining Kogo',
+            text: code,
+        };
+        emailVerificationService.sendVerificationEmail(emailToSend);
         const refreshToken = await refreshTokenService.issueRefeshToken(user.id as string);
 
         return ctx.send(
@@ -98,6 +105,7 @@ export default function registerOverride(register: (ctx: any) => Promise<any>) {
                 refreshToken,
                 emailVerification: {
                     message: `verification code is sent to ${email}`,
+                    expires,
                 },
             },
             200,

@@ -693,6 +693,7 @@ export interface ApiGroupGroup extends Schema.CollectionType {
     attributes: {
         name: Attribute.String &
             Attribute.Required &
+            Attribute.Unique &
             Attribute.SetMinMaxLength<{
                 minLength: 3;
             }>;

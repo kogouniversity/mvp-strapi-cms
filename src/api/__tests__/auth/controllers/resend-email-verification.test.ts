@@ -30,13 +30,17 @@ describe('Auth/Controller/Resend-Email-Verification', () => {
     it('should send a new verification code mail', async () => {
         mountGlobalStrapi({
             service() {
-                return { sendVerificationEmail: jest.fn().mockResolvedValue(null) };
+                return {
+                    createEmailVerificationCodeForUser: jest.fn().mockResolvedValue({ code: '', expires: 0 }),
+                    sendVerificationEmail: jest.fn().mockResolvedValue(null),
+                };
             },
         });
         await resendEmailVerification.resendEmail(ctx);
         expect(ctx.send).toHaveBeenCalledWith(
             {
                 message: `New verification code is sent to ${mockUser.email}.`,
+                expires: 0,
             },
             200,
         );

@@ -1,32 +1,32 @@
 {
-  "kind": "collectionType",
-  "collectionName": "campuses",
-  "info": {
-    "singularName": "campus",
-    "pluralName": "campuses",
-    "displayName": "Campus",
-    "description": ""
-  },
-  "options": {
-    "draftAndPublish": true
-  },
-  "pluginOptions": {},
-  "attributes": {
-    "campusName": {
-      "type": "string",
-      "required": true
+    "kind": "collectionType",
+    "collectionName": "campuses",
+    "info": {
+        "singularName": "campus",
+        "pluralName": "campuses",
+        "displayName": "Campus",
+        "description": ""
     },
-    "school": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::school.school",
-      "inversedBy": "campuses"
+    "options": {
+        "draftAndPublish": true
     },
-    "campusAddress": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::address.address",
-      "inversedBy": "campus"
+    "pluginOptions": {},
+    "attributes": {
+        "campusName": {
+            "type": "string",
+            "required": true
+        },
+        "school": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "api::school.school",
+            "inversedBy": "campuses"
+        },
+        "campusAddress": {
+            "type": "relation",
+            "relation": "oneToOne",
+            "target": "api::address.address",
+            "inversedBy": "campus"
+        }
     }
-  }
 }

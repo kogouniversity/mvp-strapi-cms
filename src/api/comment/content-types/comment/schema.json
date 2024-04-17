@@ -1,32 +1,32 @@
 {
-  "kind": "collectionType",
-  "collectionName": "comments",
-  "info": {
-    "singularName": "comment",
-    "pluralName": "comments",
-    "displayName": "Comment",
-    "description": ""
-  },
-  "options": {
-    "draftAndPublish": true
-  },
-  "pluginOptions": {},
-  "attributes": {
-    "author": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "plugin::users-permissions.user"
+    "kind": "collectionType",
+    "collectionName": "comments",
+    "info": {
+        "singularName": "comment",
+        "pluralName": "comments",
+        "displayName": "Comment",
+        "description": ""
     },
-    "content": {
-      "type": "text",
-      "required": true,
-      "minLength": 1
+    "options": {
+        "draftAndPublish": true
     },
-    "post": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::post.post",
-      "inversedBy": "comments"
+    "pluginOptions": {},
+    "attributes": {
+        "author": {
+            "type": "relation",
+            "relation": "oneToOne",
+            "target": "plugin::users-permissions.user"
+        },
+        "content": {
+            "type": "text",
+            "required": true,
+            "minLength": 1
+        },
+        "post": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "api::post.post",
+            "inversedBy": "comments"
+        }
     }
-  }
 }
