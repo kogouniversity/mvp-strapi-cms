@@ -27,6 +27,7 @@ const mockUser = {
  * Module mocks
  */
 jest.mock('../../../users-permissions/services/emailVerification', () => ({
+    createEmailVerificationCodeForUser: jest.fn().mockResolvedValue({ code: '', expires: 0 }),
     sendVerificationEmail: jest.fn(),
 }));
 jest.mock('../../../users-permissions/services/refrehToken', () => ({
@@ -89,7 +90,8 @@ describe('Auth/Controller/Register', () => {
                 },
             });
             // expect a verification email is sent
-            expect(emailVerificationService.sendVerificationEmail).toHaveBeenCalledWith(mockUser.id, mockUser.email);
+            expect(emailVerificationService.createEmailVerificationCodeForUser).toHaveBeenCalledWith(mockUser.id);
+            expect(emailVerificationService.sendVerificationEmail).toHaveBeenCalled();
             // expect a refresh token is issued
             expect(refreshTokenService.issueRefeshToken).toHaveBeenCalledWith(mockUser.id);
             expect(ctx.send).toHaveBeenCalledWith(
@@ -98,6 +100,7 @@ describe('Auth/Controller/Register', () => {
                     refreshToken: 'refreshsecret',
                     emailVerification: {
                         message: `verification code is sent to ${mockUser.email}`,
+                        expires: 0,
                     },
                 }),
                 200,

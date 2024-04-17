@@ -15,7 +15,8 @@
         "name": {
             "type": "string",
             "required": true,
-            "minLength": 3
+            "minLength": 3,
+            "unique": true
         },
         "posts": {
             "type": "relation",
@@ -45,27 +46,19 @@
         "enabled": {
             "type": "boolean"
         },
-        "users": {
-          "type": "relation",
-          "relation": "manyToMany",
-          "target": "plugin::users-permissions.user",
-          "mappedBy": "groups"
-        },
         "description": {
-          "type": "text",
-          "maxLength": 100
+            "type": "text",
+            "maxLength": 100
         },
         "icon": {
-          "type": "media",
-          "multiple": false,
-          "required": false,
-          "allowedTypes": [
-            "images"
-          ]
+            "type": "media",
+            "multiple": false,
+            "required": false,
+            "allowedTypes": ["images"]
         },
         "userCount": {
-          "type": "integer",
-          "default": 0
+            "type": "integer",
+            "default": 0
         }
-      }
+    }
 }

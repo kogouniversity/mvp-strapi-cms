@@ -4,12 +4,13 @@ import redis from '../../../utils/redis';
 async function createEmailVerificationCodeForUser(userId: string) {
     if (!userId) throw new Error('user id is undefined.');
     const randomString = generateRandomString(6);
+    const expires = parseInt(strapi.config.get('application.auth.refresh.refreshExpiry'), 10);
     await redis().set(`usr-${userId}-email-verification-codes`, randomString);
-    await redis().expire(
-        `usr-${userId}-email-verification-codes`,
-        parseInt(strapi.config.get('application.auth.refresh.refreshExpiry'), 10),
-    );
-    return randomString.toUpperCase();
+    await redis().expire(`usr-${userId}-email-verification-codes`, expires);
+    return {
+        code: randomString.toUpperCase(),
+        expires,
+    };
 }
 
 async function getEmailVerificationCode(userId: string) {
@@ -20,17 +21,15 @@ async function getEmailVerificationCode(userId: string) {
 
 /* eslint-disable no-param-reassign */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function sendVerificationEmail(userId: string, email: string) {
-    const code = await createEmailVerificationCodeForUser(userId);
-    const emailToSend = {
-        to: email,
-        from: '1234@gmail.com',
-        subject: 'Thank you for joining Kogo',
-        text: code,
-    };
-
+type Email = {
+    to: string;
+    from: string;
+    subject: string;
+    text: string;
+};
+async function sendVerificationEmail(email: Email) {
     // Send an email to the user.
-    strapi.plugin('email').service('email').send(emailToSend);
+    strapi.plugin('email').service('email').send(email);
 }
 
 export default {

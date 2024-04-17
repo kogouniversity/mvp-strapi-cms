@@ -14,6 +14,10 @@ export default {
         const { user } = ctx.state;
         const { refreshToken } = ctx.request.body;
 
+        if (!user || !user.id) {
+            return ctx.badRequest('User is not given.');
+        }
+
         try {
             await strapi.service('plugin::users-permissions.refreshToken').verifyRefreshToken(refreshToken);
             const validToken = await strapi.service('plugin::users-permissions.refreshToken').getRefreshToken(user.id);
