@@ -6,6 +6,8 @@
 export default {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async confirmCode(ctx: any): Promise<void> {
+        console.log('testing');
+        console.log(ctx.state.user);
         const code = ctx.request.body.code.toLowerCase();
         const verificationCode = await strapi
             .service('plugin::users-permissions.emailVerification')

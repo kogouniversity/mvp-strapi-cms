@@ -3,78 +3,177 @@
         "/auth/local/email-verification": {
             "post": {
                 "tags": ["Auth"],
-                "deprecated": false,
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                "code": { "type": "string" }
+                              }
+                          }
+                      }
+                  }
+                },
                 "description": "User verification API through the verification code sent to a user email.",
                 "responses": {
                     "200": {
-                        "description": "response",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "count": {
-                                            "type": "integer"
-                                        },
-                                        "foo": {
+                                        "message": {
                                             "type": "string"
+                                        },
+                                        "user": {
+                                            "type": "object"
                                         }
                                     }
                                 }
                             }
                         }
-                    }
+                    },
+                    "400": {
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object",
+                                  "properties": {
+                                      "status": {
+                                          "type": "number",
+                                          "default": 400
+                                      },
+                                      "name": {
+                                          "type": "string",
+                                          "default": "BadRequestError"
+                                      },
+                                      "message": {
+                                          "type": "string"
+                                      },
+                                      "details": {
+                                          "type": "object"
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
                 }
             }
         },
         "/auth/local/resend-email-verification": {
             "post": {
                 "tags": ["Auth"],
-                "deprecated": false,
+                "requestBody": {
+                  "required": false
+                },
                 "description": "Request a new verification code to a user email.",
                 "responses": {
                     "200": {
-                        "description": "response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "count": {
-                                            "type": "integer"
-                                        },
-                                        "foo": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "properties": {
+                                      "message": {
+                                          "type": "string"
+                                      },
+                                      "expires": {
+                                          "type": "string",
+                                          "description": "expires after the given seconds."
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                    },
+                    "400": {
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object",
+                                  "properties": {
+                                      "status": {
+                                          "type": "number",
+                                          "default": 400
+                                      },
+                                      "name": {
+                                          "type": "string",
+                                          "default": "BadRequestError"
+                                      },
+                                      "message": {
+                                          "type": "string"
+                                      },
+                                      "details": {
+                                          "type": "object"
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
                 }
             }
         },
         "/auth/local/refresh-token": {
             "post": {
                 "tags": ["Auth"],
-                "deprecated": false,
-                "description": "Refresh the requested user's access token through the refresh token.",
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "refreshToken": { "type": "string" }
+                              }
+                          }
+                      }
+                  }
+              },
+                "description": "Request to issue a new user token through the refresh token.",
                 "responses": {
                     "200": {
-                        "description": "response",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "count": {
-                                            "type": "integer"
+                                        "message": {
+                                            "type": "string"
                                         },
-                                        "foo": {
+                                        "jwt": {
                                             "type": "string"
                                         }
                                     }
                                 }
                             }
                         }
-                    }
+                    },
+                    "400": {
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object",
+                                  "properties": {
+                                      "status": {
+                                          "type": "number",
+                                          "default": 400
+                                      },
+                                      "name": {
+                                          "type": "string",
+                                          "default": "BadRequestError"
+                                      },
+                                      "message": {
+                                          "type": "string"
+                                      },
+                                      "details": {
+                                          "type": "object"
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
                 }
             }
         }
