@@ -1,0 +1,52 @@
+{
+    "paths":{
+        "/posts": {
+            "post": {
+                "summary": "Create a new post",
+                "description": "The current authenticated user will be set as the author of the post. 400 will be returned if no group is provided in the request body",
+                "tags": ["Post"],
+                "operationId": "post/posts",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                    "application/json": {
+                        "schema": { 
+                            "type": "object",
+                            "properties": {
+                                "title": { "type": "string" },
+                                "content": { "type": "string" },
+                                "group": { "type": "string or id" }
+                            }
+                        }
+                    }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "No Group is provided",
+                            "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": { 
+                                            "type": "string",
+                                            "default": "400"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "default": "BadRequestError"
+                                        },
+                                        "message": { 
+                                            "type": "string" 
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
