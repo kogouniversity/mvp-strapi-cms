@@ -2,6 +2,7 @@
 import healthCheckApiDocOverrides from './api/healthcheck/documentation/1.0.0/overrides.json';
 import authApiDocOverrides from './api/auth/documentation/1.0.0/overrides.json';
 import userPluginApiDocOverrides from './extensions/users-permissions/documentation/1.0.0/overrides.json';
+import bootstrapUsersPermissionsPlugin from './extensions/users-permissions/lifecycle/bootstrap';
 
 export default {
     /**
@@ -10,7 +11,7 @@ export default {
      *
      * This gives you an opportunity to extend code.
      */
-    register({ strapi }) {
+    async register({ strapi }) {
         if (strapi.plugin('documentation')) {
             const docOverrideService = strapi.plugin('documentation').service('override');
             docOverrideService.registerOverride(healthCheckApiDocOverrides);
@@ -27,7 +28,9 @@ export default {
      * run jobs, or perform some special logic.
      */
 
-    bootstrap({ strapi }) {
+    async bootstrap({ strapi }) {
+        await bootstrapUsersPermissionsPlugin();
+
         strapi.db.lifecycles.subscribe({
             models: ['plugin::users-permissions.user'],
 

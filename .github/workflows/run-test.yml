@@ -1,6 +1,10 @@
 name: Run Test
 
-on: [push]
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+      branches: ['main']
 
 env:
   NODE_ENV: development
@@ -26,11 +30,15 @@ jobs:
               with:
                   node-version: ${{ matrix.node-version }}
                   cache: 'npm'
+
+            - name: Scan code format
+              run: npm run lint
+
             - name: Install Dependencies
               run: npm install
 
             - name: Create a Strapi build for testing
               run: NODE_ENV=development npm run build
 
-            - name: Run Test
+            - name: Run Unit Tests
               run: CI=true npm run test
