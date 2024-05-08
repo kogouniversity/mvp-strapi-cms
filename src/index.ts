@@ -6,6 +6,7 @@ import bootstrapUsersPermissionsPlugin from './extensions/users-permissions/life
 import postApiDocPost from './api/post/documentation/1.0.0/post.json';
 import postApiDocOverrides from './api/post/documentation/1.0.0/overrides.json';
 
+
 export default {
     /**
      * An asynchronous register function that runs before
