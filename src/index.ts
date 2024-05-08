@@ -3,6 +3,9 @@ import healthCheckApiDocOverrides from './api/healthcheck/documentation/1.0.0/ov
 import authApiDocOverrides from './api/auth/documentation/1.0.0/overrides.json';
 import userPluginApiDocOverrides from './extensions/users-permissions/documentation/1.0.0/overrides.json';
 import bootstrapUsersPermissionsPlugin from './extensions/users-permissions/lifecycle/bootstrap';
+import postApiDocPost from './api/post/documentation/1.0.0/post.json';
+import postApiDocOverrides from './api/post/documentation/1.0.0/overrides.json';
+
 
 export default {
     /**
@@ -17,6 +20,11 @@ export default {
             docOverrideService.registerOverride(healthCheckApiDocOverrides);
             docOverrideService.registerOverride(authApiDocOverrides);
             docOverrideService.registerOverride(userPluginApiDocOverrides);
+            postApiDocOverrides.paths['/posts'] = {
+                ...postApiDocPost['/posts'],
+                ...postApiDocOverrides.paths['/posts'],
+            };
+            docOverrideService.registerOverride(postApiDocOverrides);
         }
     },
 

@@ -1,0 +1,115 @@
+{
+    "paths":{
+    "/posts": {
+      "post": {
+        "description": "Creates a new post ensuring required fields and valid group membership.",
+        "operationId": "createPost",
+        "tags": ["Post"],
+        "requestBody": {
+          "description": "Payload to create a new post",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "description": "Title of the post",
+                    "example": "Example title"
+                  },
+                  "content": {
+                    "type": "string",
+                    "description": "Content of the post",
+                    "example": "Example Content"
+                  },
+                  "group": {
+                    "type": "object",
+                    "description": "Group information",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "Identifier of the group",
+                        "example": 1
+                      }
+                    },
+                    "required": ["id"]
+                  }
+                },
+                "required": ["title", "content", "group"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Post created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Missing group or unauthorized group membership",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Group is required or user not in group"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+}
+}
