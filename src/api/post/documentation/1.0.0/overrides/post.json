@@ -1,52 +1,105 @@
 {
     "paths":{
-        "/posts": {
-            "post": {
-                "summary": "Create a new post",
-                "description": "The current authenticated user will be set as the author of the post. 400 will be returned if no group is provided in the request body",
-                "tags": ["Post"],
-                "operationId": "post/posts",
-                "requestBody": {
-                    "required": true,
-                    "content": {
+    "/posts": {
+        "post": {
+            "deprecated": false,
+            "description": "Create a new post with group validation",   
+            "summary": "Creates a new post, ensuring the user is part of the specified group",
+            "tags": [
+                "Post"
+              ],
+            "parameters": [],
+            "operationId": "post/posts",
+            "requestBody": {
+                "description": "The required data to create a post",
+                "required": true,
+                "content": {
                     "application/json": {
-                        "schema": { 
+                        "schema": {
                             "type": "object",
                             "properties": {
-                                "title": { "type": "string" },
-                                "content": { "type": "string" },
-                                "group": { "type": "string or id" }
+                            "title": {
+                                "type": "string",
+                                "example": "Sample Post Title"
+                            },
+                            "content": {
+                                "type": "string",
+                                "example": "This is a sample content for the post"
+                            },
+                            "group": {
+                                "type": "object",
+                                "required": ["id"],
+                                "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "example": 1,
+                                    "description": "The ID of the group the post belongs to"
+                                }
+                                }
                             }
+                            },
+                            "required": ["title", "content", "group"]
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "200": {
+                    "description": "OK - Successfully created a new post",
+                    "content": {
+                    "application/json": {
+                        "schema": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                            "type": "integer",
+                            "example": 1
+                            },
+                            "title": {
+                            "type": "string",
+                            "example": "Sample Post Title"
+                            },
+                            "content": {
+                            "type": "string",
+                            "example": "This is a sample content for the post"
+                            },
+                            "group": {
+                            "type": "object",
+                            "properties": {
+                                "id": {
+                                "type": "integer",
+                                "example": 1
+                                }
+                            }
+                            }
+                        }
                         }
                     }
                     }
                 },
-                "responses": {
-                    "400": {
-                        "description": "No Group is provided",
-                            "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "status": { 
-                                            "type": "string",
-                                            "default": "400"
-                                        },
-                                        "name": {
-                                            "type": "string",
-                                            "default": "BadRequestError"
-                                        },
-                                        "message": { 
-                                            "type": "string" 
-                                        }
-                                    }
+                "400": {
+                    "description": "Bad Request - Errors in request data",
+                    "content": {
+                    "application/json": {
+                        "schema": {
+                        "type": "object",
+                        "properties": {
+                            "errors": {
+                            "type": "object",
+                            "properties": {
+                                "group": {
+                                "type": "string",
+                                "example": "Group is required."
                                 }
                             }
+                            }
                         }
+                        }
+                    }
                     }
                 }
             }
         }
     }
+}
 }
