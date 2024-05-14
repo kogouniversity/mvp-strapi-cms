@@ -27,5 +27,14 @@ export default {
                 middlewares: [],
             },
         },
+        {
+            method: 'POST',
+            path: '/auth/local/reset-password',
+            handler: 'reset-password.resetPassword',
+            config: {
+                policies: [],
+                middlewares: [],
+            },
+        },
     ],
 };
