@@ -1,3 +1,5 @@
+import { updateGroupUserCount } from './updateGroupUserCount';
+
 async function bootstrap() {
     /**
      * Bootstrap User Roles
@@ -17,6 +19,46 @@ async function bootstrap() {
                 });
             }
         });
+
+    strapi.db.lifecycles.subscribe({
+        models: ['plugin::users-permissions.user'],
+
+        async beforeUpdate(event) {
+            const { data } = event.params;
+            const UserWithGroups = await strapi.query('plugin::users-permissions.user').findOne({
+                where: { UUID: data.UUID },
+                populate: ['groups'],
+            });
+
+            // eslint-disable-next-line no-param-reassign
+            event.state = {
+                previousGroups: UserWithGroups ? UserWithGroups.groups : [],
+            };
+        },
+
+        async afterUpdate(event) {
+            await updateGroupUserCount(event);
+        },
+
+        async beforeDelete(event) {
+            const { params } = event;
+
+            const Groups = await strapi.query('plugin::users-permissions.user').findOne({
+                where: { id: params.where.id },
+                populate: ['groups'],
+            });
+
+            const GroupIds = Groups.groups.map(group => group.id);
+
+            await Promise.all(
+                GroupIds.map(async groupId => {
+                    const removedGroup = await strapi.query('api::group.group').findOne({ where: { id: groupId } });
+                    const userCount = removedGroup.userCount - 1;
+                    return strapi.query('api::group.group').update({ where: { id: groupId }, data: { userCount } });
+                }),
+            );
+        },
+    });
 }
 
 export default bootstrap;
