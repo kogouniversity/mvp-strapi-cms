@@ -1,0 +1,210 @@
+[
+    {
+        "schoolName": "Simon Fraser University - Burnaby",
+        "schoolEmailDomain": "sfu.ca",
+        "abbreviation": "SFU",
+        "schoolAddress": {
+            "country": "Canada",
+            "city": "Burnaby",
+            "street_name": "8888 University Dr W",
+            "postal_code": "V5A 1S6",
+            "alias": "",
+            "type": "University"
+        }
+    },
+    {
+        "schoolName": "Simon Fraser University - Surrey",
+        "schoolEmailDomain": "sfu.ca",
+        "abbreviation": "SFU",
+        "schoolAddress": {
+            "country": "Canada",
+            "city": "Surrey",
+            "street_name": "250-13450 102 Ave",
+            "postal_code": "V3T 0A3",
+            "alias": "",
+            "type": "University"
+        }
+    },
+    {
+        "schoolName": "Simon Fraser University - Vancouver",
+        "schoolEmailDomain": "sfu.ca",
+        "abbreviation": "SFU",
+        "schoolAddress": {
+            "country": "Canada",
+            "city": "Vancouver",
+            "street_name": "515 W Hastings St",
+            "postal_code": "V6B 5K3",
+            "alias": "",
+            "type": "University"
+        }
+    },
+    {
+        "schoolName": "University of British Columbia - Vancouver",
+        "schoolEmailDomain": "ubc.ca",
+        "abbreviation": "UBC",
+        "schoolAddress": {
+            "country": "Canada",
+            "city": "Vancouver",
+            "street_name": "2329 West Mall",
+            "postal_code": "V6T 1Z4",
+            "alias": "",
+            "type": "University"
+        }
+    },
+    {
+        "schoolName": "University of British Columbia - Okanagan",
+        "schoolEmailDomain": "ubc.ca",
+        "abbreviation": "UBC",
+        "schoolAddress": {
+            "country": "Canada",
+            "city": "Kelowna",
+            "street_name": "3333 University Way",
+            "postal_code": "V1V 1V7",
+            "alias": "",
+            "type": "University"
+        }
+    },
+    {
+        "schoolName": "University of Victoria",
+        "schoolEmailDomain": "uvic.ca",
+        "abbreviation": "UVic",
+        "schoolAddress": {
+            "country": "Canada",
+            "city": "Victoria",
+            "street_name": "3800 Finnerty Rd",
+            "postal_code": "V8P 5C2",
+            "alias": "",
+            "type": "University"
+        }
+    },
+    {
+        "schoolName": "University of Toronto - St. George",
+        "schoolEmailDomain": "utoronto.ca",
+        "abbreviation": "UToronto",
+        "schoolAddress": {
+            "country": "Canada",
+            "city": "Toronto",
+            "street_name": "27 King's College Cir",
+            "postal_code": "M5S 1A1",
+            "alias": "",
+            "type": "University"
+        }
+    },
+    {
+        "schoolName": "University of Toronto - Mississauga",
+        "schoolEmailDomain": "utoronto.ca",
+        "abbreviation": "UTM",
+        "schoolAddress": {
+            "country": "Canada",
+            "city": "Mississauga",
+            "street_name": "3359 Mississauga Rd",
+            "postal_code": "L5L 1C6",
+            "alias": "",
+            "type": "University"
+        }
+    },
+    {
+        "schoolName": "University of Toronto - Scarborough",
+        "schoolEmailDomain": "utoronto.ca",
+        "abbreviation": "UTSC",
+        "schoolAddress": {
+            "country": "Canada",
+            "city": "Toronto",
+            "street_name": "1265 Military Trail",
+            "postal_code": "M1C 1A4",
+            "alias": "",
+            "type": "University"
+        }
+    },
+    {
+        "schoolName": "McGill University",
+        "schoolEmailDomain": "mcgill.ca",
+        "abbreviation": "McGill",
+        "schoolAddress": {
+            "country": "Canada",
+            "city": "Montreal",
+            "street_name": "845 Sherbrooke St W",
+            "postal_code": "H3A 0G4",
+            "alias": "",
+            "type": "University"
+        }
+    },
+    {
+        "schoolName": "McMaster University",
+        "schoolEmailDomain": "mcmaster.ca",
+        "abbreviation": "McMaster",
+        "schoolAddress": {
+            "country": "Canada",
+            "city": "Hamilton",
+            "street_name": "1280 Main St W",
+            "postal_code": "L8S 4L8",
+            "alias": "",
+            "type": "University"
+        }
+    },
+    {
+        "schoolName": "University of Waterloo",
+        "schoolEmailDomain": "uwaterloo.ca",
+        "abbreviation": "UWaterloo",
+        "schoolAddress": {
+            "country": "Canada",
+            "city": "Waterloo",
+            "street_name": "200 University Ave W",
+            "postal_code": "N2L 3G1",
+            "alias": "",
+            "type": "University"
+        }
+    },
+    {
+        "schoolName": "University of Ottawa",
+        "schoolEmailDomain": "uOttawa.ca",
+        "abbreviation": "uOttawa",
+        "schoolAddress": {
+            "country": "Canada",
+            "city": "Ottawa",
+            "street_name": "75 Laurier Ave E",
+            "postal_code": "K1N 6N5",
+            "alias": "",
+            "type": "University"
+        }
+    },
+    {
+        "schoolName": "University of Alberta",
+        "schoolEmailDomain": "ualberta.ca",
+        "abbreviation": "UAlberta",
+        "schoolAddress": {
+            "country": "Canada",
+            "city": "Edmonton",
+            "street_name": "116 St & 85 Ave",
+            "postal_code": "T6G 2R3",
+            "alias": "",
+            "type": "University"
+        }
+    },
+    {
+        "schoolName": "University of Calgary",
+        "schoolEmailDomain": "ucalgary.ca",
+        "abbreviation": "UCalgary",
+        "schoolAddress": {
+            "country": "Canada",
+            "city": "Calgary",
+            "street_name": "2500 University Dr NW",
+            "postal_code": "T2N 1N4",
+            "alias": "",
+            "type": "University"
+        }
+    },
+    {
+        "schoolName": "University of Montreal",
+        "schoolEmailDomain": "umontreal.ca",
+        "abbreviation": "UdeM",
+        "schoolAddress": {
+            "country": "Canada",
+            "city": "Montreal",
+            "street_name": "2900 Edouard-Montpetit Blvd",
+            "postal_code": "H3T 1J4",
+            "alias": "",
+            "type": "University"
+        }
+    }
+]
