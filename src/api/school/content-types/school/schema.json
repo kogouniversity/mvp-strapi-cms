@@ -1,33 +1,36 @@
 {
-    "kind": "collectionType",
-    "collectionName": "schools",
-    "info": {
-        "singularName": "school",
-        "pluralName": "schools",
-        "displayName": "School",
-        "description": ""
+  "kind": "collectionType",
+  "collectionName": "schools",
+  "info": {
+    "singularName": "school",
+    "pluralName": "schools",
+    "displayName": "School",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "schoolName": {
+      "type": "string"
     },
-    "options": {
-        "draftAndPublish": true
+    "schoolEmailDomain": {
+      "type": "string"
     },
-    "pluginOptions": {},
-    "attributes": {
-        "schoolEmailDomain": {
-            "type": "string"
-        },
-        "schoolName": {
-            "type": "string"
-        },
-        "group": {
-            "type": "relation",
-            "relation": "oneToOne",
-            "target": "api::group.group"
-        },
-        "campuses": {
-            "type": "relation",
-            "relation": "oneToMany",
-            "target": "api::campus.campus",
-            "mappedBy": "school"
-        }
+    "group": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::group.group"
+    },
+    "schoolAddress": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::address.address",
+      "inversedBy": "school"
+    },
+    "abbreviation": {
+      "type": "string"
     }
+  }
 }

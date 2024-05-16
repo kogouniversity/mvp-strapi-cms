@@ -5,6 +5,7 @@ import userPluginApiDocOverrides from './extensions/users-permissions/documentat
 import bootstrapUsersPermissionsPlugin from './extensions/users-permissions/lifecycle/bootstrap';
 import postApiDocPost from './api/post/documentation/1.0.0/post.json';
 import postApiDocOverrides from './api/post/documentation/1.0.0/overrides.json';
+import addSchoolData from './api/school/lifecycle/bootstrap';
 
 export default {
     /**
@@ -38,5 +39,6 @@ export default {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async bootstrap({ strapi }) {
         await bootstrapUsersPermissionsPlugin();
+        await addSchoolData(strapi);
     },
 };

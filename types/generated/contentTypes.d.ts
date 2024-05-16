@@ -612,43 +612,20 @@ export interface ApiAddressAddress extends Schema.CollectionType {
         draftAndPublish: true;
     };
     attributes: {
+        postal_code: Attribute.String & Attribute.Required;
         country: Attribute.String & Attribute.Required;
         city: Attribute.String & Attribute.Required;
         street_name: Attribute.String & Attribute.Required;
-        postal_code: Attribute.String & Attribute.Required;
         alias: Attribute.String;
         type: Attribute.String & Attribute.Required;
         longitude: Attribute.Float;
         latitude: Attribute.Float;
-        campus: Attribute.Relation<'api::address.address', 'oneToOne', 'api::campus.campus'>;
+        school: Attribute.Relation<'api::address.address', 'oneToOne', 'api::school.school'>;
         createdAt: Attribute.DateTime;
         updatedAt: Attribute.DateTime;
         publishedAt: Attribute.DateTime;
         createdBy: Attribute.Relation<'api::address.address', 'oneToOne', 'admin::user'> & Attribute.Private;
         updatedBy: Attribute.Relation<'api::address.address', 'oneToOne', 'admin::user'> & Attribute.Private;
-    };
-}
-
-export interface ApiCampusCampus extends Schema.CollectionType {
-    collectionName: 'campuses';
-    info: {
-        singularName: 'campus';
-        pluralName: 'campuses';
-        displayName: 'Campus';
-        description: '';
-    };
-    options: {
-        draftAndPublish: true;
-    };
-    attributes: {
-        campusName: Attribute.String & Attribute.Required;
-        school: Attribute.Relation<'api::campus.campus', 'manyToOne', 'api::school.school'>;
-        campusAddress: Attribute.Relation<'api::campus.campus', 'oneToOne', 'api::address.address'>;
-        createdAt: Attribute.DateTime;
-        updatedAt: Attribute.DateTime;
-        publishedAt: Attribute.DateTime;
-        createdBy: Attribute.Relation<'api::campus.campus', 'oneToOne', 'admin::user'> & Attribute.Private;
-        updatedBy: Attribute.Relation<'api::campus.campus', 'oneToOne', 'admin::user'> & Attribute.Private;
     };
 }
 
@@ -762,10 +739,11 @@ export interface ApiSchoolSchool extends Schema.CollectionType {
         draftAndPublish: true;
     };
     attributes: {
-        schoolEmailDomain: Attribute.String;
         schoolName: Attribute.String;
+        schoolEmailDomain: Attribute.String;
         group: Attribute.Relation<'api::school.school', 'oneToOne', 'api::group.group'>;
-        campuses: Attribute.Relation<'api::school.school', 'oneToMany', 'api::campus.campus'>;
+        schoolAddress: Attribute.Relation<'api::school.school', 'oneToOne', 'api::address.address'>;
+        abbreviation: Attribute.String;
         createdAt: Attribute.DateTime;
         updatedAt: Attribute.DateTime;
         publishedAt: Attribute.DateTime;
@@ -793,7 +771,6 @@ declare module '@strapi/types' {
             'plugin::users-permissions.role': PluginUsersPermissionsRole;
             'plugin::users-permissions.user': PluginUsersPermissionsUser;
             'api::address.address': ApiAddressAddress;
-            'api::campus.campus': ApiCampusCampus;
             'api::comment.comment': ApiCommentComment;
             'api::group.group': ApiGroupGroup;
             'api::post.post': ApiPostPost;

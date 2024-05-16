@@ -1,9 +1,4 @@
-import { updateUserCount } from './lifecycles/userCount';
-
-export default {
-    async afterUpdate(event) {
-        updateUserCount(event);
-    },
+module.exports = {
     async beforeCreate(event) {
         // eslint-disable-next-line no-param-reassign
         event.params.data.publishedAt = new Date();
