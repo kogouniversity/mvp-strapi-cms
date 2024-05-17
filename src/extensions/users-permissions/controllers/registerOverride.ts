@@ -1,16 +1,7 @@
 import { ZodError, z } from 'zod';
 import emailVerificationService from '../services/emailVerification';
 import refreshTokenService from '../services/refrehToken';
-
-function validateEmailFormat(email: string): void {
-    const validateEmail = (emailToValidate: string) =>
-        String(emailToValidate)
-            .toLowerCase()
-            .match(
-                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-            );
-    if (!validateEmail(email)) throw new Error('Invalid email format.');
-}
+import { validatePassword, validateEmailFormat } from '../../../utils/validateInputs';
 
 async function validateEmailDomain(email: string) {
     const entries = await strapi.entityService.findMany('api::school.school');
@@ -34,23 +25,6 @@ function validateUsername(username: string) {
         z.string()
             .refine(s => /^[a-zA-Z0-9]{6,15}$/.test(s), 'Username must not contain a special character.')
             .parse(username);
-    } catch (err) {
-        throw new Error((err as ZodError).issues[0].message);
-    }
-}
-
-function validatePassword(password: string) {
-    try {
-        z.string().min(8, 'Password must be at least 8 characters.').parse(password);
-        z.string()
-            .refine(s => !s.includes(' '), 'Password must not include a whitespace.')
-            .parse(password);
-        z.string()
-            .refine(
-                s => /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(s),
-                'Password must contain one uppercase letter, one number, and one special character.',
-            )
-            .parse(password);
     } catch (err) {
         throw new Error((err as ZodError).issues[0].message);
     }

@@ -176,6 +176,198 @@
                   }
                 }
             }
+        },
+        "/auth/local/reset-password": {
+            "post": {
+                "tags": ["Auth"],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                "identifier": { "type": "string" }
+                              }
+                          }
+                      }
+                  }
+                },
+                "description": "Request a new verification code to a user email to reset a password ",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "expires": {
+                                            "type": "string"
+                                        },
+                                        "identifier": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object",
+                                  "properties": {
+                                      "status": {
+                                          "type": "number",
+                                          "default": 400
+                                      },
+                                      "name": {
+                                          "type": "string",
+                                          "default": "BadRequestError"
+                                      },
+                                      "message": {
+                                          "type": "string"
+                                      },
+                                      "details": {
+                                          "type": "object"
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
+                }
+            }
+        },
+        "/auth/local/reset-password/email-verification": {
+            "post": {
+                "tags": ["Auth"],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "code": { "type": "string" },
+                                  "identifier": { "type": "string" }
+                              }
+                          }
+                      }
+                  }
+              },
+                "description": "Code Verification to obtain the reset-password-token",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "resetPasswordToken": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object",
+                                  "properties": {
+                                      "status": {
+                                          "type": "number",
+                                          "default": 400
+                                      },
+                                      "name": {
+                                          "type": "string",
+                                          "default": "BadRequestError"
+                                      },
+                                      "message": {
+                                          "type": "string"
+                                      },
+                                      "details": {
+                                          "type": "object"
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
+                }
+            }
+        },
+        "/auth/local/reset-password/set-new-password": {
+            "post": {
+                "tags": ["Auth"],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "type": "object",
+                              "properties": {
+                                  "newPassword": { "type": "string" },
+                                  "resetPasswordToken": { "type": "string" }
+                              }
+                          }
+                      }
+                  }
+              },
+                "description": "Update a user's password if the resetPasswordToken is valid",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "user": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object",
+                                  "properties": {
+                                      "status": {
+                                          "type": "number",
+                                          "default": 400
+                                      },
+                                      "name": {
+                                          "type": "string",
+                                          "default": "BadRequestError"
+                                      },
+                                      "message": {
+                                          "type": "string"
+                                      },
+                                      "details": {
+                                          "type": "object"
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
+                }
+            }
         }
+            
     }
 }

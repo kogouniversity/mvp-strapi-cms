@@ -30,7 +30,25 @@ export default {
         {
             method: 'POST',
             path: '/auth/local/reset-password',
-            handler: 'reset-password.resetPassword',
+            handler: 'reset-password.sendCodeToResetPassword',
+            config: {
+                policies: [],
+                middlewares: [],
+            },
+        },
+        {
+            method: 'POST',
+            path: '/auth/local/reset-password/email-verification',
+            handler: 'reset-password.confirmCodeForNewPassword',
+            config: {
+                policies: [],
+                middlewares: [],
+            },
+        },
+        {
+            method: 'POST',
+            path: '/auth/local/reset-password/set-new-password',
+            handler: 'reset-password.setNewPassword',
             config: {
                 policies: [],
                 middlewares: [],
