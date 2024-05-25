@@ -648,6 +648,8 @@ export interface ApiCommentComment extends Schema.CollectionType {
                 minLength: 1;
             }>;
         post: Attribute.Relation<'api::comment.comment', 'manyToOne', 'api::post.post'>;
+        parentComment: Attribute.Relation<'api::comment.comment', 'manyToOne', 'api::comment.comment'>;
+        replyComment: Attribute.Relation<'api::comment.comment', 'oneToMany', 'api::comment.comment'>;
         createdAt: Attribute.DateTime;
         updatedAt: Attribute.DateTime;
         publishedAt: Attribute.DateTime;
