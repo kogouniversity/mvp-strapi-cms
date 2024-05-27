@@ -31,6 +31,15 @@ const myExtraRoutes = [
             middlewares: [],
         },
     },
+    {
+        method: 'POST',
+        path: '/groups/:id/profilePhoto',
+        handler: 'group.uploadProfilePhoto',
+        config: {
+            policies: [],
+            middlewares: [],
+        },
+    },
 ];
 
 export default customRouter(defaultRouter, myExtraRoutes);

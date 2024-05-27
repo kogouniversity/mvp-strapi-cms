@@ -3,6 +3,7 @@
  */
 
 import { factories } from '@strapi/strapi';
+import { parseMultipartData } from '@strapi/utils';
 
 export default factories.createCoreController('api::group.group', ({ strapi }) => ({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -37,5 +38,35 @@ export default factories.createCoreController('api::group.group', ({ strapi }) =
         } else {
             ctx.send('Must use mysql for NearbySearch');
         }
+    },
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, consistent-return
+    async uploadProfilePhoto(ctx: any): Promise<void> {
+        if (!ctx.is('multipart')) {
+            return ctx.badRequest('Multipart request expected.');
+        }
+
+        const { files } = parseMultipartData(ctx);
+
+        if (!files || !files.image) {
+            return ctx.badRequest('Image file is required.');
+        }
+
+        const imageService = strapi.service('api::image.image');
+        const imageId = await imageService.storeImage(files.image, 'profilePhoto', {
+            width: 500,
+            height: 500,
+            maxWidth: 800,
+            maxHeight: 800,
+        });
+
+        const { id } = ctx.params;
+        const group = await strapi.entityService.update('api::group.group', id, {
+            data: {
+                image_profile: imageId,
+            },
+        });
+
+        ctx.send(group);
     },
 }));
