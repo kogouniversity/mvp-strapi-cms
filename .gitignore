@@ -115,3 +115,10 @@ build
 
 src/extensions/documentation
 src/extensions/documentation/*
+
+
+############################
+# Redis
+############################
+
+dump.rdb
