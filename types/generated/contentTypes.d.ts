@@ -729,6 +729,7 @@ export interface ApiImageProfileImageProfile extends Schema.CollectionType {
         singularName: 'image-profile';
         pluralName: 'image-profiles';
         displayName: 'ImageProfile';
+        description: '';
     };
     options: {
         draftAndPublish: true;
@@ -736,11 +737,19 @@ export interface ApiImageProfileImageProfile extends Schema.CollectionType {
     attributes: {
         profileName: Attribute.String;
         src: Attribute.String;
-        width: Attribute.String & Attribute.Required;
-        height: Attribute.String & Attribute.Required;
         image: Attribute.Relation<'api::image-profile.image-profile', 'manyToOne', 'api::image.image'>;
         group: Attribute.Relation<'api::image-profile.image-profile', 'oneToOne', 'api::group.group'>;
         user: Attribute.Relation<'api::image-profile.image-profile', 'oneToOne', 'plugin::users-permissions.user'>;
+        width: Attribute.Integer &
+            Attribute.Required &
+            Attribute.SetMinMax<{
+                min: 140;
+            }>;
+        height: Attribute.Integer &
+            Attribute.Required &
+            Attribute.SetMinMax<{
+                min: 140;
+            }>;
         createdAt: Attribute.DateTime;
         updatedAt: Attribute.DateTime;
         publishedAt: Attribute.DateTime;

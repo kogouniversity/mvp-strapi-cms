@@ -4,7 +4,8 @@
   "info": {
     "singularName": "image-profile",
     "pluralName": "image-profiles",
-    "displayName": "ImageProfile"
+    "displayName": "ImageProfile",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -16,14 +17,6 @@
     },
     "src": {
       "type": "string"
-    },
-    "width": {
-      "type": "string",
-      "required": true
-    },
-    "height": {
-      "type": "string",
-      "required": true
     },
     "image": {
       "type": "relation",
@@ -42,6 +35,16 @@
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user",
       "mappedBy": "imageProfile"
+    },
+    "width": {
+      "type": "integer",
+      "required": true,
+      "min": 140
+    },
+    "height": {
+      "type": "integer",
+      "required": true,
+      "min": 140
     }
   }
 }

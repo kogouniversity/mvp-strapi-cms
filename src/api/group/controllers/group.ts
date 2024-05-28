@@ -3,7 +3,6 @@
  */
 
 import { factories } from '@strapi/strapi';
-import { parseMultipartData } from '@strapi/utils';
 
 export default factories.createCoreController('api::group.group', ({ strapi }) => ({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -46,24 +45,23 @@ export default factories.createCoreController('api::group.group', ({ strapi }) =
             return ctx.badRequest('Multipart request expected.');
         }
 
-        const { files } = parseMultipartData(ctx);
+        const { files } = ctx.request;
 
         if (!files || !files.image) {
             return ctx.badRequest('Image file is required.');
         }
 
         const imageService = strapi.service('api::image.image');
-        const imageId = await imageService.storeImage(files.image, 'profilePhoto', {
-            width: 500,
-            height: 500,
-            maxWidth: 800,
-            maxHeight: 800,
-        });
+
+        const imageCollectionId = await imageService.storeImage(files.image, 'profilePhoto');
 
         const { id } = ctx.params;
+
+        const profileImage = await imageService.retrieveImage(imageCollectionId, 'profilePhoto');
+
         const group = await strapi.entityService.update('api::group.group', id, {
             data: {
-                image_profile: imageId,
+                image_profile: profileImage.id,
             },
         });
 

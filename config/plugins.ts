@@ -60,6 +60,10 @@ module.exports = ({ env }) => ({
           }
         },
       },
+      breakpoints: {
+        post: { width: 800, height: 800},
+        profile: { width: 140, height: 140 },
+      },
     },
   }
 });
