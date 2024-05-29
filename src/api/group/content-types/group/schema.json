@@ -62,7 +62,7 @@
       "type": "integer",
       "default": 0
     },
-    "image_profile": {
+    "imageProfile": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::image-profile.image-profile",

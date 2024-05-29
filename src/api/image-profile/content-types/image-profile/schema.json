@@ -24,12 +24,6 @@
       "target": "api::image.image",
       "inversedBy": "profiles"
     },
-    "group": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::group.group",
-      "mappedBy": "image_profile"
-    },
     "user": {
       "type": "relation",
       "relation": "oneToOne",
@@ -45,6 +39,12 @@
       "type": "integer",
       "required": true,
       "min": 140
+    },
+    "group": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::group.group",
+      "mappedBy": "imageProfile"
     }
   }
 }

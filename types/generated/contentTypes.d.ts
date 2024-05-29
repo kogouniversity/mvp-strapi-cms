@@ -694,7 +694,7 @@ export interface ApiGroupGroup extends Schema.CollectionType {
             }>;
         icon: Attribute.Media;
         userCount: Attribute.Integer & Attribute.DefaultTo<0>;
-        image_profile: Attribute.Relation<'api::group.group', 'oneToOne', 'api::image-profile.image-profile'>;
+        imageProfile: Attribute.Relation<'api::group.group', 'oneToOne', 'api::image-profile.image-profile'>;
         createdAt: Attribute.DateTime;
         updatedAt: Attribute.DateTime;
         publishedAt: Attribute.DateTime;
@@ -738,7 +738,6 @@ export interface ApiImageProfileImageProfile extends Schema.CollectionType {
         profileName: Attribute.String;
         src: Attribute.String;
         image: Attribute.Relation<'api::image-profile.image-profile', 'manyToOne', 'api::image.image'>;
-        group: Attribute.Relation<'api::image-profile.image-profile', 'oneToOne', 'api::group.group'>;
         user: Attribute.Relation<'api::image-profile.image-profile', 'oneToOne', 'plugin::users-permissions.user'>;
         width: Attribute.Integer &
             Attribute.Required &
@@ -750,6 +749,7 @@ export interface ApiImageProfileImageProfile extends Schema.CollectionType {
             Attribute.SetMinMax<{
                 min: 140;
             }>;
+        group: Attribute.Relation<'api::image-profile.image-profile', 'oneToOne', 'api::group.group'>;
         createdAt: Attribute.DateTime;
         updatedAt: Attribute.DateTime;
         publishedAt: Attribute.DateTime;

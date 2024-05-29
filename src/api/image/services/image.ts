@@ -72,7 +72,6 @@ export default factories.createCoreService('api::image.image', ({ strapi }) => (
         const resizedImage = await strapi.plugins.upload.services.upload.upload({
             data: {},
             files: {
-                // eslint-disable-next-line object-shorthand
                 path: tempFilePath,
                 name: resizedImageName,
                 type: originalImage.mime,

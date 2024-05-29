@@ -61,7 +61,7 @@ export default factories.createCoreController('api::group.group', ({ strapi }) =
 
         const group = await strapi.entityService.update('api::group.group', id, {
             data: {
-                image_profile: profileImage.id,
+                imageProfile: profileImage.id,
             },
         });
 
