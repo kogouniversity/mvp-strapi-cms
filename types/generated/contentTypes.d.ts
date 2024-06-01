@@ -593,6 +593,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
                     'uuid-format': '^[A-Za-z0-9]{32}$';
                 }
             >;
+        imageProfile: Attribute.Relation<
+            'plugin::users-permissions.user',
+            'oneToOne',
+            'api::image-profile.image-profile'
+        >;
         createdAt: Attribute.DateTime;
         updatedAt: Attribute.DateTime;
         createdBy: Attribute.Relation<'plugin::users-permissions.user', 'oneToOne', 'admin::user'> & Attribute.Private;
@@ -689,11 +694,69 @@ export interface ApiGroupGroup extends Schema.CollectionType {
             }>;
         icon: Attribute.Media;
         userCount: Attribute.Integer & Attribute.DefaultTo<0>;
+        imageProfile: Attribute.Relation<'api::group.group', 'oneToOne', 'api::image-profile.image-profile'>;
         createdAt: Attribute.DateTime;
         updatedAt: Attribute.DateTime;
         publishedAt: Attribute.DateTime;
         createdBy: Attribute.Relation<'api::group.group', 'oneToOne', 'admin::user'> & Attribute.Private;
         updatedBy: Attribute.Relation<'api::group.group', 'oneToOne', 'admin::user'> & Attribute.Private;
+    };
+}
+
+export interface ApiImageImage extends Schema.CollectionType {
+    collectionName: 'images';
+    info: {
+        singularName: 'image';
+        pluralName: 'images';
+        displayName: 'Image';
+    };
+    options: {
+        draftAndPublish: true;
+    };
+    attributes: {
+        profiles: Attribute.Relation<'api::image.image', 'oneToMany', 'api::image-profile.image-profile'>;
+        createdAt: Attribute.DateTime;
+        updatedAt: Attribute.DateTime;
+        publishedAt: Attribute.DateTime;
+        createdBy: Attribute.Relation<'api::image.image', 'oneToOne', 'admin::user'> & Attribute.Private;
+        updatedBy: Attribute.Relation<'api::image.image', 'oneToOne', 'admin::user'> & Attribute.Private;
+    };
+}
+
+export interface ApiImageProfileImageProfile extends Schema.CollectionType {
+    collectionName: 'image_profiles';
+    info: {
+        singularName: 'image-profile';
+        pluralName: 'image-profiles';
+        displayName: 'ImageProfile';
+        description: '';
+    };
+    options: {
+        draftAndPublish: true;
+    };
+    attributes: {
+        profileName: Attribute.String;
+        src: Attribute.String;
+        image: Attribute.Relation<'api::image-profile.image-profile', 'manyToOne', 'api::image.image'>;
+        user: Attribute.Relation<'api::image-profile.image-profile', 'oneToOne', 'plugin::users-permissions.user'>;
+        width: Attribute.Integer &
+            Attribute.Required &
+            Attribute.SetMinMax<{
+                min: 140;
+            }>;
+        height: Attribute.Integer &
+            Attribute.Required &
+            Attribute.SetMinMax<{
+                min: 140;
+            }>;
+        group: Attribute.Relation<'api::image-profile.image-profile', 'oneToOne', 'api::group.group'>;
+        createdAt: Attribute.DateTime;
+        updatedAt: Attribute.DateTime;
+        publishedAt: Attribute.DateTime;
+        createdBy: Attribute.Relation<'api::image-profile.image-profile', 'oneToOne', 'admin::user'> &
+            Attribute.Private;
+        updatedBy: Attribute.Relation<'api::image-profile.image-profile', 'oneToOne', 'admin::user'> &
+            Attribute.Private;
     };
 }
 
@@ -776,6 +839,8 @@ declare module '@strapi/types' {
             'api::address.address': ApiAddressAddress;
             'api::comment.comment': ApiCommentComment;
             'api::group.group': ApiGroupGroup;
+            'api::image.image': ApiImageImage;
+            'api::image-profile.image-profile': ApiImageProfileImageProfile;
             'api::post.post': ApiPostPost;
             'api::school.school': ApiSchoolSchool;
         }

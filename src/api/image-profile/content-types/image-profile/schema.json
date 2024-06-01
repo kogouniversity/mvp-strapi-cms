@@ -1,0 +1,50 @@
+{
+  "kind": "collectionType",
+  "collectionName": "image_profiles",
+  "info": {
+    "singularName": "image-profile",
+    "pluralName": "image-profiles",
+    "displayName": "ImageProfile",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "profileName": {
+      "type": "string"
+    },
+    "src": {
+      "type": "string"
+    },
+    "image": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::image.image",
+      "inversedBy": "profiles"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "mappedBy": "imageProfile"
+    },
+    "width": {
+      "type": "integer",
+      "required": true,
+      "min": 140
+    },
+    "height": {
+      "type": "integer",
+      "required": true,
+      "min": 140
+    },
+    "group": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::group.group",
+      "mappedBy": "imageProfile"
+    }
+  }
+}

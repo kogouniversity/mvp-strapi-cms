@@ -38,4 +38,33 @@ export default factories.createCoreController('api::group.group', ({ strapi }) =
             ctx.send('Must use mysql for NearbySearch');
         }
     },
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, consistent-return
+    async uploadProfilePhoto(ctx: any): Promise<void> {
+        if (!ctx.is('multipart')) {
+            return ctx.badRequest('Multipart request expected.');
+        }
+
+        const { files } = ctx.request;
+
+        if (!files || !files.image) {
+            return ctx.badRequest('Image file is required.');
+        }
+
+        const imageService = strapi.service('api::image.image');
+
+        const imageCollectionId = await imageService.storeImage(files.image, 'profilePhoto');
+
+        const { id } = ctx.params;
+
+        const profileImage = await imageService.retrieveImage(imageCollectionId, 'profilePhoto');
+
+        const group = await strapi.entityService.update('api::group.group', id, {
+            data: {
+                imageProfile: profileImage.id,
+            },
+        });
+
+        ctx.send(group);
+    },
 }));

@@ -1,0 +1,21 @@
+{
+  "kind": "collectionType",
+  "collectionName": "images",
+  "info": {
+    "singularName": "image",
+    "pluralName": "images",
+    "displayName": "Image"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "profiles": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::image-profile.image-profile",
+      "mappedBy": "image"
+    }
+  }
+}
