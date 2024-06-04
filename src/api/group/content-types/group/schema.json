@@ -50,14 +50,6 @@
       "type": "text",
       "maxLength": 100
     },
-    "icon": {
-      "type": "media",
-      "multiple": false,
-      "required": false,
-      "allowedTypes": [
-        "images"
-      ]
-    },
     "userCount": {
       "type": "integer",
       "default": 0
@@ -67,6 +59,11 @@
       "relation": "oneToOne",
       "target": "api::image-profile.image-profile",
       "inversedBy": "group"
+    },
+    "isSchool": {
+      "type": "boolean",
+      "default": false,
+      "required": true
     }
   }
 }

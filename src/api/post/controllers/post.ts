@@ -49,4 +49,69 @@ export default factories.createCoreController('api::post.post', ({ strapi }) => 
 
         return ctx.send(newPost);
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async schoolPosts(ctx: any): Promise<void> {
+        // All posts from the user's school excluding the user's posts
+        const { user } = ctx.state;
+        const userId = user.id;
+
+        const schoolGroups = await strapi.entityService.findMany('api::group.group', {
+            filters: {
+                users: userId,
+                isSchool: true,
+            },
+        });
+        const schoolGroup = schoolGroups[0];
+
+        const posts = await strapi.entityService.findMany('api::post.post', {
+            filters: {
+                group: {
+                    id: {
+                        $eq: schoolGroup.id,
+                    },
+                },
+                author: {
+                    id: {
+                        $ne: userId,
+                    },
+                },
+            },
+            sort: { createdAt: 'desc' },
+            populate: { group: true },
+        });
+
+        ctx.send(posts);
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async allPosts(ctx: any) {
+        // All posts from the user's groups excluding the user's posts
+        const { user } = ctx.state;
+        const userId = user.id;
+
+        const allGroups = await strapi.entityService.findMany('api::group.group', {
+            filters: {
+                users: userId,
+            },
+        });
+        const groupIds = allGroups.map(group => group.id);
+
+        const posts = await strapi.entityService.findMany('api::post.post', {
+            filters: {
+                group: {
+                    id: {
+                        $in: groupIds,
+                    },
+                },
+                author: {
+                    id: {
+                        $ne: userId,
+                    },
+                },
+            },
+            sort: { createdAt: 'desc' },
+            populate: { group: true },
+        });
+
+        ctx.send(posts);
+    },
 }));

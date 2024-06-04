@@ -15,7 +15,20 @@ const customRouter = (innerRouter, extraRoutes = []) => {
             return innerRouter.prefix;
         },
         get routes() {
-            if (!routes) routes = innerRouter.routes.concat(extraRoutes);
+            if (!routes) {
+                routes = [
+                    {
+                        method: 'GET',
+                        path: '/groups/me',
+                        handler: 'group.myGroups',
+                        config: {
+                            policies: [],
+                            middlewares: [],
+                        },
+                    },
+                    ...innerRouter.routes.concat(extraRoutes),
+                ];
+            }
             return routes;
         },
     };

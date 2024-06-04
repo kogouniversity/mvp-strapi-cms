@@ -692,9 +692,9 @@ export interface ApiGroupGroup extends Schema.CollectionType {
             Attribute.SetMinMaxLength<{
                 maxLength: 100;
             }>;
-        icon: Attribute.Media;
         userCount: Attribute.Integer & Attribute.DefaultTo<0>;
         imageProfile: Attribute.Relation<'api::group.group', 'oneToOne', 'api::image-profile.image-profile'>;
+        isSchool: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
         createdAt: Attribute.DateTime;
         updatedAt: Attribute.DateTime;
         publishedAt: Attribute.DateTime;

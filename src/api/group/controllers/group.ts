@@ -1,7 +1,6 @@
 /**
  * group controller
  */
-
 import { factories } from '@strapi/strapi';
 
 export default factories.createCoreController('api::group.group', ({ strapi }) => ({
@@ -66,5 +65,16 @@ export default factories.createCoreController('api::group.group', ({ strapi }) =
         });
 
         ctx.send(group);
+    },
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async myGroups(ctx: any): Promise<void> {
+        const { user } = ctx.state;
+        const userId = user.id;
+
+        const groups = await strapi.entityService.findMany('api::group.group', {
+            filters: { users: userId },
+        });
+        ctx.send(groups);
     },
 }));

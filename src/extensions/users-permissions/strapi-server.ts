@@ -27,7 +27,5 @@ export default plugin => {
         },
     });
 
-    console.log('Registered routes:', plugin.routes['content-api'].routes);
-
     return plugin;
 };
