@@ -15,20 +15,7 @@ const customRouter = (innerRouter, extraRoutes = []) => {
             return innerRouter.prefix;
         },
         get routes() {
-            if (!routes) {
-                routes = [
-                    {
-                        method: 'GET',
-                        path: '/groups/me',
-                        handler: 'group.myGroups',
-                        config: {
-                            policies: [],
-                            middlewares: [],
-                        },
-                    },
-                    ...innerRouter.routes.concat(extraRoutes),
-                ];
-            }
+            if (!routes) routes = innerRouter.routes.concat(extraRoutes);
             return routes;
         },
     };
@@ -48,6 +35,15 @@ const myExtraRoutes = [
         method: 'POST',
         path: '/groups/:id/profilePhoto',
         handler: 'group.uploadProfilePhoto',
+        config: {
+            policies: [],
+            middlewares: [],
+        },
+    },
+    {
+        method: 'GET',
+        path: '/following',
+        handler: 'group.following',
         config: {
             policies: [],
             middlewares: [],

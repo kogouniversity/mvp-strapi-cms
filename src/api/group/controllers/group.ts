@@ -67,14 +67,64 @@ export default factories.createCoreController('api::group.group', ({ strapi }) =
         ctx.send(group);
     },
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    async myGroups(ctx: any): Promise<void> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, consistent-return
+    async following(ctx: any): Promise<void> {
         const { user } = ctx.state;
         const userId = user.id;
 
-        const groups = await strapi.entityService.findMany('api::group.group', {
-            filters: { users: userId },
+        const { page, pageSize } = ctx.query;
+        const pageNum = parseInt(page, 10);
+        const pageSizeNum = parseInt(pageSize, 10);
+
+        const totalGroups = await strapi.entityService.count('api::group.group', {
+            filters: {
+                users: userId,
+            },
         });
-        ctx.send(groups);
+
+        const pageCountNum = Math.ceil(totalGroups / pageSizeNum);
+
+        // if pageNum exceeds the total number of pages, return an empty array
+        if (pageNum > pageCountNum) {
+            return ctx.send({
+                data: [],
+                meta: {
+                    pagination: {
+                        page: pageNum,
+                        pageSize: pageSizeNum,
+                        pageCount: pageCountNum,
+                        total: totalGroups,
+                    },
+                },
+            });
+        }
+
+        const startNum = (pageNum - 1) * pageSizeNum;
+
+        const userGroups = await strapi.entityService.findMany('api::group.group', {
+            filters: {
+                users: userId,
+            },
+            start: startNum,
+            limit: pageSizeNum,
+            sort: 'userCount:desc',
+        });
+
+        const response = {
+            data: userGroups.map(group => ({
+                id: group.id,
+                attributes: group,
+            })),
+            meta: {
+                pagination: {
+                    page: pageNum,
+                    pageSize: pageSizeNum,
+                    pageCount: pageCountNum,
+                    total: totalGroups,
+                },
+            },
+        };
+
+        ctx.send(response);
     },
 }));
