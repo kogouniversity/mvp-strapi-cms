@@ -1,5 +1,5 @@
 import { ZodError, z } from 'zod';
-import emailVerificationService from '../services/emailVerification';
+// import emailVerificationService from '../services/emailVerification';
 import refreshTokenService from '../services/refrehToken';
 import { validatePassword, validateEmailFormat } from '../../../utils/validateInputs';
 
@@ -57,19 +57,20 @@ export default function registerOverride(register: (ctx: any) => Promise<any>) {
         });
         const user = await strapi.entityService.update('plugin::users-permissions.user', ctx.response.body.user.id, {
             data: {
-                confirmed: false,
+                // confirmed: false,
+                confirmed: true,
                 role: unauthenticatedRole[0].id,
             },
         });
 
-        const { code, expires } = await emailVerificationService.createEmailVerificationCodeForUser(user.id as string);
-        const emailToSend = {
-            to: email,
-            from: '1234@gmail.com',
-            subject: 'Thank you for joining Kogo',
-            text: code,
-        };
-        emailVerificationService.sendVerificationEmail(emailToSend);
+        // const { code, expires } = await emailVerificationService.createEmailVerificationCodeForUser(user.id as string);
+        // const emailToSend = {
+        //     to: email,
+        //     from: '1234@gmail.com',
+        //     subject: 'Thank you for joining Kogo',
+        //     text: code,
+        // };
+        // emailVerificationService.sendVerificationEmail(emailToSend);
         const refreshToken = await refreshTokenService.issueRefeshToken(user.id as string);
 
         return ctx.send(
@@ -77,10 +78,10 @@ export default function registerOverride(register: (ctx: any) => Promise<any>) {
                 ...ctx.response.body,
                 user,
                 refreshToken,
-                emailVerification: {
-                    message: `verification code is sent to ${email}`,
-                    expires,
-                },
+                // emailVerification: {
+                //     message: `verification code is sent to ${email}`,
+                //     expires,
+                // },
             },
             200,
         );
