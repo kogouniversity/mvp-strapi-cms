@@ -64,6 +64,11 @@
       "type": "boolean",
       "default": false,
       "required": true
+    },
+    "tags": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::tag.tag"
     }
   }
 }

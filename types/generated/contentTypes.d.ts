@@ -695,6 +695,7 @@ export interface ApiGroupGroup extends Schema.CollectionType {
         userCount: Attribute.Integer & Attribute.DefaultTo<0>;
         imageProfile: Attribute.Relation<'api::group.group', 'oneToOne', 'api::image-profile.image-profile'>;
         isSchool: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
+        tags: Attribute.Relation<'api::group.group', 'oneToMany', 'api::tag.tag'>;
         createdAt: Attribute.DateTime;
         updatedAt: Attribute.DateTime;
         publishedAt: Attribute.DateTime;
@@ -818,6 +819,31 @@ export interface ApiSchoolSchool extends Schema.CollectionType {
     };
 }
 
+export interface ApiTagTag extends Schema.CollectionType {
+    collectionName: 'tags';
+    info: {
+        singularName: 'tag';
+        pluralName: 'tags';
+        displayName: 'Tag';
+    };
+    options: {
+        draftAndPublish: true;
+    };
+    attributes: {
+        value: Attribute.String &
+            Attribute.Required &
+            Attribute.Unique &
+            Attribute.SetMinMaxLength<{
+                minLength: 3;
+            }>;
+        createdAt: Attribute.DateTime;
+        updatedAt: Attribute.DateTime;
+        publishedAt: Attribute.DateTime;
+        createdBy: Attribute.Relation<'api::tag.tag', 'oneToOne', 'admin::user'> & Attribute.Private;
+        updatedBy: Attribute.Relation<'api::tag.tag', 'oneToOne', 'admin::user'> & Attribute.Private;
+    };
+}
+
 declare module '@strapi/types' {
     export module Shared {
         export interface ContentTypes {
@@ -843,6 +869,7 @@ declare module '@strapi/types' {
             'api::image-profile.image-profile': ApiImageProfileImageProfile;
             'api::post.post': ApiPostPost;
             'api::school.school': ApiSchoolSchool;
+            'api::tag.tag': ApiTagTag;
         }
     }
 }
