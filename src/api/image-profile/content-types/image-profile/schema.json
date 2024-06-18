@@ -33,12 +33,12 @@
     "width": {
       "type": "integer",
       "required": true,
-      "min": 140
+      "min": 64
     },
     "height": {
       "type": "integer",
       "required": true,
-      "min": 140
+      "min": 64
     },
     "group": {
       "type": "relation",

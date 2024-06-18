@@ -38,6 +38,12 @@
       "relation": "manyToOne",
       "target": "api::group.group",
       "inversedBy": "posts"
+    },
+    "image_posts": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::image-post.image-post",
+      "mappedBy": "post"
     }
   }
 }
