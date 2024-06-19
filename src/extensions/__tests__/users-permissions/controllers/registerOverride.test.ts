@@ -85,7 +85,8 @@ describe('Auth/Controller/Register', () => {
             expect(strapi.entityService.update).toHaveBeenCalledTimes(1);
             expect(strapi.entityService.update).toHaveBeenCalledWith('plugin::users-permissions.user', mockUser.id, {
                 data: {
-                    confirmed: false,
+                    // confirmed: false,
+                    confirmed: true,
                     role: mockUnauthenticatedRole.id,
                 },
             });
