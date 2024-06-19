@@ -4,7 +4,8 @@
   "info": {
     "singularName": "image",
     "pluralName": "images",
-    "displayName": "Image"
+    "displayName": "Image",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -15,6 +16,12 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::image-profile.image-profile",
+      "mappedBy": "image"
+    },
+    "image_posts": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::image-post.image-post",
       "mappedBy": "image"
     }
   }

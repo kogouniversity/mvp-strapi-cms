@@ -41,6 +41,16 @@ const customRouter = (innerRouter, extraRoutes = []) => {
     };
 };
 
-const myExtraRoutes = [];
+const myExtraRoutes = [
+    {
+        method: 'POST',
+        path: '/posts/:id/postPhotos',
+        handler: 'post.uploadPostPhotos',
+        config: {
+            policies: [],
+            middlewares: [],
+        },
+    },
+];
 
 export default customRouter(defaultRouter, myExtraRoutes);

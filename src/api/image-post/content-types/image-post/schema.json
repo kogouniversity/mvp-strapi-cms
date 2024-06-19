@@ -1,0 +1,44 @@
+{
+  "kind": "collectionType",
+  "collectionName": "image_posts",
+  "info": {
+    "singularName": "image-post",
+    "pluralName": "image-posts",
+    "displayName": "ImagePost",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "width": {
+      "type": "integer",
+      "min": 128,
+      "required": true
+    },
+    "height": {
+      "type": "integer",
+      "min": 128,
+      "required": true
+    },
+    "postName": {
+      "type": "string"
+    },
+    "src": {
+      "type": "string"
+    },
+    "image": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::image.image",
+      "inversedBy": "image_posts"
+    },
+    "post": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::post.post",
+      "inversedBy": "image_posts"
+    }
+  }
+}

@@ -114,4 +114,31 @@ export default factories.createCoreController('api::post.post', ({ strapi }) => 
 
         ctx.send(posts);
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, consistent-return
+    async uploadPostPhotos(ctx: any): Promise<void> {
+        if (!ctx.is('multipart')) {
+            return ctx.badRequest('Multipart request expected.');
+        }
+
+        const { files } = ctx.request;
+
+        if (!files || !files.image) {
+            return ctx.badRequest('Image file is required.');
+        }
+
+        const imageService = strapi.service('api::image.image');
+        const imageCollectionId = await imageService.storeImage(files.image, 'postPhoto');
+
+        const { id } = ctx.params;
+
+        const photoImages = await imageService.retrieveImage(imageCollectionId, 'postPhoto');
+
+        const post = await strapi.entityService.update('api::post.post', id, {
+            data: {
+                image_posts: photoImages.map(imagePost => imagePost.id), // image의 id를 사용하여 관계 설정
+            },
+        });
+
+        ctx.send(post);
+    },
 }));

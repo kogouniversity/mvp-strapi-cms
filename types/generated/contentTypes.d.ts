@@ -710,17 +710,53 @@ export interface ApiImageImage extends Schema.CollectionType {
         singularName: 'image';
         pluralName: 'images';
         displayName: 'Image';
+        description: '';
     };
     options: {
         draftAndPublish: true;
     };
     attributes: {
         profiles: Attribute.Relation<'api::image.image', 'oneToMany', 'api::image-profile.image-profile'>;
+        image_posts: Attribute.Relation<'api::image.image', 'oneToMany', 'api::image-post.image-post'>;
         createdAt: Attribute.DateTime;
         updatedAt: Attribute.DateTime;
         publishedAt: Attribute.DateTime;
         createdBy: Attribute.Relation<'api::image.image', 'oneToOne', 'admin::user'> & Attribute.Private;
         updatedBy: Attribute.Relation<'api::image.image', 'oneToOne', 'admin::user'> & Attribute.Private;
+    };
+}
+
+export interface ApiImagePostImagePost extends Schema.CollectionType {
+    collectionName: 'image_posts';
+    info: {
+        singularName: 'image-post';
+        pluralName: 'image-posts';
+        displayName: 'ImagePost';
+        description: '';
+    };
+    options: {
+        draftAndPublish: true;
+    };
+    attributes: {
+        width: Attribute.Integer &
+            Attribute.Required &
+            Attribute.SetMinMax<{
+                min: 128;
+            }>;
+        height: Attribute.Integer &
+            Attribute.Required &
+            Attribute.SetMinMax<{
+                min: 128;
+            }>;
+        postName: Attribute.String;
+        src: Attribute.String;
+        image: Attribute.Relation<'api::image-post.image-post', 'manyToOne', 'api::image.image'>;
+        post: Attribute.Relation<'api::image-post.image-post', 'manyToOne', 'api::post.post'>;
+        createdAt: Attribute.DateTime;
+        updatedAt: Attribute.DateTime;
+        publishedAt: Attribute.DateTime;
+        createdBy: Attribute.Relation<'api::image-post.image-post', 'oneToOne', 'admin::user'> & Attribute.Private;
+        updatedBy: Attribute.Relation<'api::image-post.image-post', 'oneToOne', 'admin::user'> & Attribute.Private;
     };
 }
 
@@ -743,12 +779,12 @@ export interface ApiImageProfileImageProfile extends Schema.CollectionType {
         width: Attribute.Integer &
             Attribute.Required &
             Attribute.SetMinMax<{
-                min: 140;
+                min: 64;
             }>;
         height: Attribute.Integer &
             Attribute.Required &
             Attribute.SetMinMax<{
-                min: 140;
+                min: 64;
             }>;
         group: Attribute.Relation<'api::image-profile.image-profile', 'oneToOne', 'api::group.group'>;
         createdAt: Attribute.DateTime;
@@ -786,6 +822,7 @@ export interface ApiPostPost extends Schema.CollectionType {
             }>;
         comments: Attribute.Relation<'api::post.post', 'oneToMany', 'api::comment.comment'>;
         group: Attribute.Relation<'api::post.post', 'manyToOne', 'api::group.group'>;
+        image_posts: Attribute.Relation<'api::post.post', 'oneToMany', 'api::image-post.image-post'>;
         createdAt: Attribute.DateTime;
         updatedAt: Attribute.DateTime;
         publishedAt: Attribute.DateTime;
@@ -866,6 +903,7 @@ declare module '@strapi/types' {
             'api::comment.comment': ApiCommentComment;
             'api::group.group': ApiGroupGroup;
             'api::image.image': ApiImageImage;
+            'api::image-post.image-post': ApiImagePostImagePost;
             'api::image-profile.image-profile': ApiImageProfileImageProfile;
             'api::post.post': ApiPostPost;
             'api::school.school': ApiSchoolSchool;
