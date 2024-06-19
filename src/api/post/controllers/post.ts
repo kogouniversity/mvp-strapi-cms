@@ -135,7 +135,7 @@ export default factories.createCoreController('api::post.post', ({ strapi }) => 
 
         const post = await strapi.entityService.update('api::post.post', id, {
             data: {
-                image_posts: photoImages.map(imagePost => imagePost.id), // image의 id를 사용하여 관계 설정
+                image_posts: photoImages.map(imagePost => imagePost.id),
             },
         });
 

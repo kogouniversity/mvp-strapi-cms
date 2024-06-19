@@ -6,6 +6,7 @@ import bootstrapUsersPermissionsPlugin from './extensions/users-permissions/life
 import postApiDocPost from './api/post/documentation/1.0.0/post.json';
 import postApiDocOverrides from './api/post/documentation/1.0.0/overrides.json';
 import addSchoolData from './api/school/lifecycle/bootstrap';
+import setupPermissions from '../config/functions/bootstrap';
 
 export default {
     /**
@@ -40,5 +41,6 @@ export default {
     async bootstrap({ strapi }) {
         await bootstrapUsersPermissionsPlugin();
         await addSchoolData(strapi);
+        await setupPermissions({ strapi });
     },
 };
