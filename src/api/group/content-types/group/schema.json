@@ -44,7 +44,8 @@
       "default": false
     },
     "enabled": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": true
     },
     "description": {
       "type": "text",

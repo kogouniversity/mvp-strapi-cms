@@ -687,7 +687,7 @@ export interface ApiGroupGroup extends Schema.CollectionType {
         address: Attribute.Relation<'api::group.group', 'oneToOne', 'api::address.address'>;
         hasAddress: Attribute.Boolean & Attribute.DefaultTo<false>;
         regionRestricted: Attribute.Boolean & Attribute.DefaultTo<false>;
-        enabled: Attribute.Boolean;
+        enabled: Attribute.Boolean & Attribute.DefaultTo<true>;
         description: Attribute.Text &
             Attribute.SetMinMaxLength<{
                 maxLength: 100;
