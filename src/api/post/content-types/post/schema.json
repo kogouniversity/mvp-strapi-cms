@@ -44,6 +44,9 @@
       "relation": "oneToMany",
       "target": "api::image-post.image-post",
       "mappedBy": "post"
+    },
+    "likes": {
+      "type": "integer"
     }
   }
 }

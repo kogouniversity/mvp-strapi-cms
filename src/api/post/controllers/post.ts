@@ -46,6 +46,7 @@ export default factories.createCoreController('api::post.post', ({ strapi }) => 
                 content,
                 group: group.id,
                 author: user.id,
+                likes: 0,
             },
         });
 
@@ -148,11 +149,20 @@ export default factories.createCoreController('api::post.post', ({ strapi }) => 
         const { user } = ctx.state;
         const { postId } = ctx.params;
         // check if post'likes already have userid
-        const isLiked = await redis().sismember(`post-${postId}-like`, user.id);
+        const isLiked = await redis().sismember(`post-${postId}-likes`, user.id);
 
         if (!isLiked) {
             // user haven't liked the post
-            await redis().sadd(`post-${postId}-like`, user.id);
+            await redis().sadd(`post-${postId}-likes`, user.id);
+            // const likesNum = await strapi.entityService.findOne("api::post.post", postId, {
+            //     fields: ['likes'],
+            // })
+            const likeNums = await redis().scard(`post-${postId}-likes`);
+            await strapi.entityService.update('api::post.post', postId, {
+                data: {
+                    likes: likeNums,
+                },
+            });
             return user.id;
         }
         return ctx.badRequest('User already liked the post');
@@ -162,10 +172,16 @@ export default factories.createCoreController('api::post.post', ({ strapi }) => 
         const { user } = ctx.state;
         const { postId } = ctx.params;
         // delete user from redis set of the post
-        const isLiked = await redis().sismember(`post-${postId}-like`, user.id);
+        const isLiked = await redis().sismember(`post-${postId}-likes`, user.id);
 
         if (isLiked) {
-            await redis().srem(`post-${postId}-like`, user.id);
+            await redis().srem(`post-${postId}-likes`, user.id);
+            const likeNums = await redis().scard(`post-${postId}-likes`);
+            await strapi.entityService.update('api::post.post', postId, {
+                data: {
+                    likes: likeNums,
+                },
+            });
             return user.id;
         }
         return ctx.badRequest("User didn't like this post before");
