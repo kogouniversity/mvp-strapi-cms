@@ -33,6 +33,24 @@ const customRouter = (innerRouter, extraRoutes = []) => {
                             middlewares: [],
                         },
                     },
+                    {
+                        method: 'POST',
+                        path: '/posts/:postId/like',
+                        handler: 'post.like',
+                        config: {
+                            policies: [],
+                            middlewares: [],
+                        },
+                    },
+                    {
+                        method: 'DELETE',
+                        path: '/posts/:postId/like',
+                        handler: 'post.removeLike',
+                        config: {
+                            policies: [],
+                            middlewares: [],
+                        },
+                    },
                     ...innerRouter.routes.concat(extraRoutes),
                 ];
             }

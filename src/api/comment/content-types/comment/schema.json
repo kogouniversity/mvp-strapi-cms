@@ -40,7 +40,7 @@
       "target": "api::comment.comment",
       "mappedBy": "parentComment"
     },
-    "like": {
+    "likes": {
       "type": "integer",
       "default": 0
     }
