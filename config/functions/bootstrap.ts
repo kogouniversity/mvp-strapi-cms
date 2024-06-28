@@ -12,15 +12,13 @@ const setupPermissions = async (strapi: Strapi) => {
         // JIN can edit here :)
         'api::comment.comment': ['create', 'find', 'update', 'delete', 'findOne'],
         'api::group.group': ['create', 'find', 'update', 'delete', 'findOne', 'following', 'nearbySearch', 'update', 'uploadProfilePhoto'],
-        'api::post.post': ['create', 'find', 'update', 'delete', 'findOne', 'allPosts', 'schoolPosts', 'uploadPostPhotos'],
+        'api::post.post': ['create', 'find', 'update', 'delete', 'findOne', 'allPosts', 'schoolPosts', 'uploadPostPhotos', 'like', 'removeLike'],
         'api::tag.tag': ['create', 'find', 'update', 'delete', 'findOne'],
         'plugin::upload.content-api': ['upload'],
         'plugin::users-permissions.auth': ['changePassword'], 
-        'plugin::users-permissions.user': ['me'],
+        'plugin::users-permissions.user': ['me', 'destroy'],
         'plugin::users-permissions.userProfile': ['updateProfilePhoto'],
     };
-
-    console.log('Found role: ', role);
 
     const allPermissionsToCreate = Object.entries(permissions).flatMap(([controller, actions]) =>
         actions.map(async (action) => {
