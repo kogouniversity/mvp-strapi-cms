@@ -824,6 +824,7 @@ export interface ApiPostPost extends Schema.CollectionType {
         group: Attribute.Relation<'api::post.post', 'manyToOne', 'api::group.group'>;
         image_posts: Attribute.Relation<'api::post.post', 'oneToMany', 'api::image-post.image-post'>;
         likes: Attribute.Integer & Attribute.DefaultTo<0>;
+        commentCount: Attribute.Integer & Attribute.DefaultTo<0>;
         createdAt: Attribute.DateTime;
         updatedAt: Attribute.DateTime;
         publishedAt: Attribute.DateTime;
