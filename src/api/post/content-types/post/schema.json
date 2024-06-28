@@ -46,7 +46,9 @@
       "mappedBy": "post"
     },
     "likes": {
-      "type": "integer"
+      "type": "integer",
+      "default": 0,
+      "required": false
     }
   }
 }
