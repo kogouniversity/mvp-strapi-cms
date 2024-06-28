@@ -15,7 +15,20 @@ const customRouter = (innerRouter, extraRoutes = []) => {
             return innerRouter.prefix;
         },
         get routes() {
-            if (!routes) routes = innerRouter.routes.concat(extraRoutes);
+            if (!routes) {
+                routes = [
+                    {
+                        method: 'POST',
+                        path: '/groups/:groupId/unfollow',
+                        handler: 'group.unfollow',
+                        config: {
+                            policies: [],
+                            middlewares: [],
+                        },
+                    },
+                    ...innerRouter.routes.concat(extraRoutes),
+                ];
+            }
             return routes;
         },
     };
@@ -47,6 +60,14 @@ const myExtraRoutes = [
         config: {
             policies: [],
             middlewares: [],
+        },
+    },
+    {
+        method: 'POST',
+        path: '/groups/:groupId',
+        handler: 'group.update',
+        config: {
+            policies: [],
         },
     },
 ];

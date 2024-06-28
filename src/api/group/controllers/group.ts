@@ -5,6 +5,39 @@ import { factories } from '@strapi/strapi';
 
 export default factories.createCoreController('api::group.group', ({ strapi }) => ({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async update(ctx: any) {
+        const { user } = ctx.state;
+        const { groupId } = ctx.params;
+
+        const groups = await strapi.entityService.findMany('api::group.group', {
+            filters: {
+                id: groupId,
+            },
+            populate: ['users'],
+        });
+
+        if (groups.length === 0) {
+            return ctx.badRequest('No such group');
+        }
+        const group = groups[0];
+        const userIds = group.users.map(u => u.id);
+
+        if (!userIds.includes(user.id)) {
+            userIds.push(user.id);
+        } else {
+            return ctx.badRequest('User already in the group');
+        }
+
+        const updatedGroup = await strapi.entityService.update('api::group.group', group.id, {
+            data: {
+                users: userIds,
+            },
+            populate: ['users'],
+        });
+
+        return ctx.send(updatedGroup);
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async nearbySearch(ctx: any): Promise<void> {
         const { longitude, latitude } = ctx.request.body;
         const { dist } = ctx.query;
@@ -126,5 +159,33 @@ export default factories.createCoreController('api::group.group', ({ strapi }) =
         };
 
         ctx.send(response);
+    },
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, consistent-return
+    async unfollow(ctx: any): Promise<void> {
+        const { user } = ctx.state;
+        const { groupId } = ctx.params;
+
+        const userGroups = await strapi.entityService.findMany('api::group.group', {
+            filters: {
+                id: groupId,
+                users: user.id,
+            },
+            populate: ['users'],
+        });
+
+        if (userGroups.length === 0) {
+            return ctx.badRequest('User is not in the group');
+        }
+
+        const userGroup = await strapi.query('api::group.group').update({
+            where: { id: userGroups[0].id },
+            data: {
+                users: userGroups[0].users.filter(u => u.id !== user.id),
+            },
+            populate: ['users'],
+        });
+
+        ctx.send(userGroup);
     },
 }));
