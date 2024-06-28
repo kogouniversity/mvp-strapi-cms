@@ -49,6 +49,10 @@
       "type": "integer",
       "default": 0,
       "required": false
+    },
+    "commentCount": {
+      "type": "integer",
+      "default": 0
     }
   }
 }
