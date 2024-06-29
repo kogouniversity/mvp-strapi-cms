@@ -145,6 +145,13 @@ export default factories.createCoreController('api::post.post', ({ strapi }) => 
         ctx.send(post);
     },
 
+    async likeCheck(ctx: any): Promise<void> {
+        const { user } = ctx.state;
+        const { postId } = ctx.params;
+
+        return redis().sismember(`post-${postId}-likes`, user.id);
+    },
+
     async like(ctx: any): Promise<void> {
         const { user } = ctx.state;
         const { postId } = ctx.params;

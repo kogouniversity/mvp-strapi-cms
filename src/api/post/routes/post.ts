@@ -34,6 +34,15 @@ const customRouter = (innerRouter, extraRoutes = []) => {
                         },
                     },
                     {
+                        method: 'GET',
+                        path: '/posts/:postId/likeCheck',
+                        handler: 'post.likeCheck',
+                        config: {
+                            policies: [],
+                            middlewares: [],
+                        },
+                    },
+                    {
                         method: 'POST',
                         path: '/posts/:postId/like',
                         handler: 'post.like',

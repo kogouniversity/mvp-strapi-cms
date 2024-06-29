@@ -16,6 +16,15 @@ const customRouter = (innerRouter, extraRoutes = []) => {
             if (!routes) {
                 routes = [
                     {
+                        method: 'GET',
+                        path: '/comment/:commentId/likeCheck',
+                        handler: 'comment.likeCheck',
+                        config: {
+                            policies: [],
+                            middlewares: [],
+                        },
+                    },
+                    {
                         method: 'POST',
                         path: '/comment/:commentId/like',
                         handler: 'comment.like',
