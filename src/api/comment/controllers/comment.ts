@@ -7,6 +7,13 @@ import { factories } from '@strapi/strapi';
 import redis from '../../../utils/redis';
 
 export default factories.createCoreController('api::comment.comment', () => ({
+    async likeCheck(ctx: any): Promise<void> {
+        const { user } = ctx.state;
+        const { commentId } = ctx.params;
+
+        return redis().sismember(`comment-${commentId}-likes`, user.id);
+    },
+
     async like(ctx: any) {
         const { user } = ctx.state;
         const { commentId } = ctx.params;
