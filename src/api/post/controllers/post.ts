@@ -4,9 +4,43 @@
  */
 
 import { factories } from '@strapi/strapi';
+import { MeiliSearch } from 'meilisearch';
 import redis from '../../../utils/redis';
 
+const client = new MeiliSearch({
+    host: process.env.MEILISEARCH_HOST,
+    apiKey: process.env.MEILISEARCH_API_KEY,
+});
+
+const postIndex = client.index('post');
+
 export default factories.createCoreController('api::post.post', ({ strapi }) => ({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async find(ctx: any) {
+        const { q, _start = 0, _limit = 15, _sort = 'createdAt:desc' } = ctx.query;
+
+        if (q) {
+            // if query parameter is provided
+            // search for posts, users, groups, tags, and comments
+            try {
+                // search for the posts with the keyword
+                const queryWords = q.split(' ').join(' ');
+                await postIndex.updateSortableAttributes(['createdAt', 'likes', 'viewCount']);
+                const postSearchResult = await postIndex.search(queryWords, {
+                    offset: _start,
+                    limit: _limit,
+                    sort: [_sort],
+                });
+                return ctx.send(postSearchResult.hits);
+            } catch (error) {
+                return ctx.badRequest('Meilisearch error:', error);
+            }
+        }
+        // if query parameter is not provided, return all the posts
+        const { result } = await super.find(ctx);
+        return ctx.send(result);
+    },
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async create(ctx: any) {
         const { user } = ctx.state;

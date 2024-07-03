@@ -116,6 +116,7 @@ build
 src/extensions/documentation
 src/extensions/documentation/*
 
+meili/
 
 ############################
 # Redis

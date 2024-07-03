@@ -60,6 +60,12 @@ module.exports = ({ env }) => ({
           }
         },
       },
+      meilisearch: {
+        config: {
+          host: env('MEILISEARCH_HOST'),
+          apiKey: env('MEILISEARCH_API_KEY'),
+        },
+      },
       breakpoints: {
         post: { width: 128, height: 128},
         profile: { width: 64, height: 64},

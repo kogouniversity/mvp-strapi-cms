@@ -27,6 +27,7 @@
     "@types/koa": "^2.14.0",
     "better-sqlite3": "8.6.0",
     "jsonwebtoken": "^9.0.2",
+    "meilisearch": "^0.41.0",
     "mysql": "^2.18.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
