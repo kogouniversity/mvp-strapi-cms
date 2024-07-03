@@ -60,6 +60,15 @@ const customRouter = (innerRouter, extraRoutes = []) => {
                             middlewares: [],
                         },
                     },
+                    {
+                        method: 'POST',
+                        path: '/posts/:postId/view',
+                        handler: 'post.view',
+                        config: {
+                            policies: [],
+                            middlewares: [],
+                        },
+                    },
                     ...innerRouter.routes.concat(extraRoutes),
                 ];
             }

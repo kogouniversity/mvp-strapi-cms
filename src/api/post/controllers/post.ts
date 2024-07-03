@@ -193,4 +193,25 @@ export default factories.createCoreController('api::post.post', ({ strapi }) => 
         }
         return ctx.badRequest("User didn't like this post before");
     },
+
+    async view(ctx: any): Promise<void> {
+        const { user } = ctx.state;
+        const { postId } = ctx.params;
+
+        // check if post'views already have userid
+        const isViewed = await redis().sismember(`post-${postId}-views`, user.id);
+
+        if (!isViewed) {
+            // user haven't viewed the post
+            await redis().sadd(`post-${postId}-views`, user.id);
+            const viewNums = await redis().scard(`post-${postId}-views`);
+            await strapi.entityService.update('api::post.post', postId, {
+                data: {
+                    views: viewNums,
+                },
+            });
+            return user.id;
+        }
+        return ctx.badRequest('User already viewed the post');
+    },
 }));
