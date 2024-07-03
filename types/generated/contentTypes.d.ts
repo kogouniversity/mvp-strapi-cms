@@ -598,6 +598,7 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
             'oneToOne',
             'api::image-profile.image-profile'
         >;
+        ownedGroups: Attribute.Relation<'plugin::users-permissions.user', 'oneToMany', 'api::group.group'>;
         createdAt: Attribute.DateTime;
         updatedAt: Attribute.DateTime;
         createdBy: Attribute.Relation<'plugin::users-permissions.user', 'oneToOne', 'admin::user'> & Attribute.Private;
@@ -696,6 +697,7 @@ export interface ApiGroupGroup extends Schema.CollectionType {
         imageProfile: Attribute.Relation<'api::group.group', 'oneToOne', 'api::image-profile.image-profile'>;
         isSchool: Attribute.Boolean & Attribute.Required & Attribute.DefaultTo<false>;
         tags: Attribute.Relation<'api::group.group', 'oneToMany', 'api::tag.tag'>;
+        owner: Attribute.Relation<'api::group.group', 'manyToOne', 'plugin::users-permissions.user'>;
         createdAt: Attribute.DateTime;
         updatedAt: Attribute.DateTime;
         publishedAt: Attribute.DateTime;
