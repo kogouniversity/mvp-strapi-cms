@@ -5,6 +5,50 @@ import { factories } from '@strapi/strapi';
 
 export default factories.createCoreController('api::group.group', ({ strapi }) => ({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async create(ctx: any) {
+        const { user } = ctx.state;
+        const { name, description, tags } = ctx.request.body;
+
+        if (!tags) return ctx.badRequest('At least one tag is required');
+
+        // for all tags
+        const userTags = tags.map(async tag => {
+            // check if the tag exists
+            const originalTags = await strapi.entityService.findMany('api::tag.tag', {
+                filters: {
+                    value: tag,
+                },
+            });
+            // if the tag does not exist, create the tag and put the tag id into userTags
+            if (originalTags.length === 0) {
+                const newTag = await strapi.entityService.create('api::tag.tag', {
+                    data: {
+                        value: tag,
+                    },
+                });
+                userTags.push(newTag.id);
+            }
+            // if the tag exists, put the tag id into userTags
+            else {
+                userTags.push(originalTags[0].id);
+            }
+        });
+
+        const newGroup = await strapi.query('api::group.group').create({
+            data: {
+                name,
+                description,
+                tags: userTags.map(tag => tag.id),
+                owner: user,
+                users: [user],
+                userCount: 1,
+            },
+        });
+
+        return ctx.send(newGroup);
+    },
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async update(ctx: any) {
         const { user } = ctx.state;
         const { groupId } = ctx.params;

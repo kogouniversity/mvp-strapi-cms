@@ -93,6 +93,12 @@
       "relation": "oneToOne",
       "target": "api::image-profile.image-profile",
       "inversedBy": "user"
+    },
+    "ownedGroups": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::group.group",
+      "mappedBy": "owner"
     }
   }
 }
