@@ -12,7 +12,7 @@ const setupPermissions = async (strapi: Strapi) => {
         // JIN can edit here :)
         'api::comment.comment': ['create', 'find', 'update', 'delete', 'findOne'],
         'api::group.group': ['create', 'find', 'update', 'delete', 'findOne', 'following', 'nearbySearch', 'update', 'uploadProfilePhoto'],
-        'api::post.post': ['create', 'find', 'update', 'delete', 'findOne', 'allPosts', 'schoolPosts', 'uploadPostPhotos', 'like', 'removeLike'],
+        'api::post.post': ['create', 'find', 'update', 'delete', 'findOne', 'allPosts', 'schoolPosts', 'uploadPostPhotos', 'like', 'removeLike', 'likeCheck', 'view'],
         'api::tag.tag': ['create', 'find', 'update', 'delete', 'findOne'],
         'plugin::upload.content-api': ['upload'],
         'plugin::users-permissions.auth': ['changePassword'], 
