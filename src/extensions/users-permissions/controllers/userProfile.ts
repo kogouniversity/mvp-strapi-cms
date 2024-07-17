@@ -3,7 +3,6 @@ import { factories } from '@strapi/strapi';
 export default factories.createCoreController('plugin::users-permissions.user', ({ strapi }) => ({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, consistent-return
     async updateProfilePhoto(ctx: any): Promise<void> {
-        console.log('updateProfilePhoto called');
         if (!ctx.is('multipart')) {
             return ctx.badRequest('Multipart request expected.');
         }

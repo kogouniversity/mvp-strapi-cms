@@ -122,3 +122,9 @@ src/extensions/documentation/*
 ############################
 
 dump.rdb
+
+############################
+# meilisearch
+############################
+
+meili/

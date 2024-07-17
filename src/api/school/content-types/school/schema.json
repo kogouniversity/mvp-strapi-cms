@@ -23,11 +23,10 @@
       "relation": "oneToOne",
       "target": "api::group.group"
     },
-    "schoolAddress": {
+    "school_address": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::address.address",
-      "inversedBy": "school"
+      "target": "api::address.address"
     },
     "abbreviation": {
       "type": "string"
