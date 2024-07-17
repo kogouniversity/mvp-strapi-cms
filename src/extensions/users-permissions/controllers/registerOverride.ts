@@ -12,6 +12,7 @@ async function validateEmailDomain(email: string) {
     const emailDomain = domainString[domainString.length - 2].concat('.', domainString[domainString.length - 1]);
 
     if (!schoolDomains.includes(emailDomain)) throw new Error('Given email is not a registered school domain.');
+    return emailDomain;
 }
 
 function validateUsername(username: string) {
@@ -35,34 +36,42 @@ export default function registerOverride(register: (ctx: any) => Promise<any>) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, no-param-reassign
     return async (ctx: any) => {
         const { username, password, email } = ctx.request.body;
+        let schoolDomain;
         try {
             validateUsername(username);
             validatePassword(password);
             validateEmailFormat(email);
-            await validateEmailDomain(email);
+            schoolDomain = await validateEmailDomain(email);
         } catch (err) {
             return ctx.badRequest(err.message);
         }
 
         try {
             await register(ctx);
+            console.log('registered');
         } catch (error) {
             if (error.constructor.name === 'ApplicationError') {
                 return ctx.badRequest(error.message);
             }
         }
-
-        const unauthenticatedRole = await strapi.entityService.findMany('plugin::users-permissions.role', {
-            filters: { type: 'Unauthenticated' },
+        console.log(schoolDomain);
+        const schoolGroup = await strapi.db.query('api::school.school').findOne({
+            where: {
+                schoolEmailDomain: schoolDomain,
+            },
+            populate: {
+                group: true,
+            },
         });
+        console.log(schoolGroup);
         const user = await strapi.entityService.update('plugin::users-permissions.user', ctx.response.body.user.id, {
             data: {
                 // confirmed: false,
                 confirmed: true,
-                role: unauthenticatedRole[0].id,
+                groups: schoolGroup.group.id,
             },
         });
-
+        console.log('came here');
         // const { code, expires } = await emailVerificationService.createEmailVerificationCodeForUser(user.id as string);
         // const emailToSend = {
         //     to: email,

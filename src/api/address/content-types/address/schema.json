@@ -41,12 +41,6 @@
     },
     "latitude": {
       "type": "float"
-    },
-    "school": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::school.school",
-      "mappedBy": "schoolAddress"
     }
   }
 }

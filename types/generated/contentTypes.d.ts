@@ -579,7 +579,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
         role: Attribute.Relation<'plugin::users-permissions.user', 'manyToOne', 'plugin::users-permissions.role'>;
         groups: Attribute.Relation<'plugin::users-permissions.user', 'manyToMany', 'api::group.group'>;
         address: Attribute.Relation<'plugin::users-permissions.user', 'oneToOne', 'api::address.address'>;
-        school: Attribute.Relation<'plugin::users-permissions.user', 'oneToOne', 'api::school.school'>;
         UUID: Attribute.UID<
             undefined,
             undefined,
@@ -626,7 +625,6 @@ export interface ApiAddressAddress extends Schema.CollectionType {
         type: Attribute.String & Attribute.Required;
         longitude: Attribute.Float;
         latitude: Attribute.Float;
-        school: Attribute.Relation<'api::address.address', 'oneToOne', 'api::school.school'>;
         createdAt: Attribute.DateTime;
         updatedAt: Attribute.DateTime;
         publishedAt: Attribute.DateTime;
@@ -851,7 +849,7 @@ export interface ApiSchoolSchool extends Schema.CollectionType {
         schoolName: Attribute.String;
         schoolEmailDomain: Attribute.String;
         group: Attribute.Relation<'api::school.school', 'oneToOne', 'api::group.group'>;
-        schoolAddress: Attribute.Relation<'api::school.school', 'oneToOne', 'api::address.address'>;
+        school_address: Attribute.Relation<'api::school.school', 'oneToOne', 'api::address.address'>;
         abbreviation: Attribute.String;
         createdAt: Attribute.DateTime;
         updatedAt: Attribute.DateTime;
